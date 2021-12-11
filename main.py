@@ -16,7 +16,7 @@ app = Flask(__name__)
 
 
 import logging # pylint: disable=wrong-import-order
-from routes import all_sources # pylint: disable=unused-import
+from routes import root # pylint: disable=unused-import
 
 def main() -> None:
     """Starting the server and initializing config variables"""
