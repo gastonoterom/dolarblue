@@ -1,11 +1,11 @@
 """Redis database for cache"""
 from typing import Any, Dict, Optional
 from redis import Redis
-from libs.redis_cache.factory import RedisFactory
+from libs.redis_cache.wrapper import RedisWrapper
 
 class RedisDb:
     """Cache databse for storing key value pairs."""
-    redis_db: Redis = RedisFactory.build_db()
+    redis_db: Redis = RedisWrapper().get_connection()   
 
     @classmethod
     def store_dict(cls, h_name: str, h_dict: Dict[str, Any]) -> None:

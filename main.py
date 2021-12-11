@@ -18,4 +18,5 @@ from flask.logging import create_logger # pylint: disable=wrong-import-order
 app = Flask(__name__)
 flask_logger = create_logger(app)
 
+
 from routes import root
