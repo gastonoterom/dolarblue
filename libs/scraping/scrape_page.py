@@ -5,10 +5,11 @@ from bs4 import BeautifulSoup
 
 from selenium.webdriver.remote.webdriver import WebDriver
 from classes.dolar_blue import DolarBlue
+from libs.scraping.exceptions.scraping_error import ScrapingException
 from libs.scraping.selenium_driver_factory import SeleniumDriverFactory
-from consts.selenium_values import REMOTE_SELENIUM_URL
+from consts.selenium import REMOTE_SELENIUM_URL
 
-def get_dolar_values_from_source(
+def scrape_dolar_values_from_source(
     page_name: str,
     selenium_fetching: Callable[[WebDriver], str],
     soup_scraping: Callable[[BeautifulSoup], Tuple[float, float]]
@@ -30,7 +31,7 @@ def get_dolar_values_from_source(
         return DolarBlue(source=page_name, buy_price=buy_value, sell_price=sell_value)
 
     except Exception as err:
-        raise Exception(f"Error getting {page_name} USD values") from err
+        raise ScrapingException(f"Error getting {page_name} USD values") from err
 
     finally:
         driver.close()

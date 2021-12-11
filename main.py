@@ -1,3 +1,4 @@
+# pylint: disable=wrong-import-position
 """Python backend flask API for dolarblue prices in Argentina,
 obtained by webscraping different sites, and requesting prices via different apis"""
 
@@ -6,21 +7,28 @@ __version__ = "0.0 Alpha"
 __maintainer__ = "Gaston Otero"
 __email__ = "mail@gastonotero.com"
 
+# Initialize environment
+from dotenv import load_dotenv # pylint: disable=wrong-import-order
+load_dotenv()
 
-from dolar_values.agrofy import get_agrofy_values
-from dolar_values.dolarhoy import get_dolarhoy_values
+import logging # pylint: disable=wrong-import-order
+from classes.agrofy import Agrofy
+from classes.dolar_hoy import DolarHoy
 
 def main() -> None:
     """Starting the server and initializing config variables"""
+    logging.basicConfig()
 
     # Fetching agrofy dolar values
-    agrofy_dolar_blue = get_agrofy_values()
+    Agrofy.update_cache()
     # Fetching dolarhoy dolar values
-    dolarhoy_dolar_blue = get_dolarhoy_values()
+    DolarHoy.update_cache()
 
-    print(agrofy_dolar_blue, dolarhoy_dolar_blue)
-    
-    return
+    # Displaying cached values
+    print(Agrofy.get_cached_blue())
+    print(DolarHoy.get_cached_blue())
+    print(Agrofy.get_prev_cached_blue())
+    print(DolarHoy.get_prev_cached_blue())
 
 
 if __name__ == "__main__":

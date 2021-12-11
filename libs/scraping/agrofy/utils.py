@@ -6,7 +6,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from consts.agrofy_values import AGROFY_URL
+from consts.agrofy import AGROFY_URL
 
 def agrofy_soup_scraping(soup: BeautifulSoup) -> Tuple[float, float]:
     """Beautiful soup scraping for agrofy dolar blue values,

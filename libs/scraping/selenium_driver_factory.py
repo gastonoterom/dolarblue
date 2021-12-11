@@ -4,14 +4,18 @@ from typing import Optional
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.remote.webdriver import WebDriver
-from consts.selenium_values import HEADLESS_SELENIUM
+from consts.selenium import HEADLESS_SELENIUM
 
 
 class SeleniumDriverFactory():
     """This class has static methods for constructing selenium driver objects."""
 
-    @staticmethod
-    def get_driver(remote_url:Optional[str] = None, options: Optional[Options] = None) -> WebDriver:
+    @classmethod
+    def get_driver(
+        cls,
+        remote_url:Optional[str] = None,
+        options: Optional[Options] = None
+        ) -> WebDriver:
         """Creates and returns a local or remote selenium driver,
         depending if the remote url was given or not,
         if options not given it just returns a headless driver"""
@@ -22,9 +26,9 @@ class SeleniumDriverFactory():
             options.add_argument("--silent")
             options.add_argument("--log-level=3")
         if remote_url:
-            return SeleniumDriverFactory.get_remote_driver(options, remote_url)
+            return cls.get_remote_driver(options, remote_url)
         else:
-            return SeleniumDriverFactory.get_local_driver(options)
+            return cls.get_local_driver(options)
 
     @staticmethod
     def get_local_driver(options: Options) -> WebDriver:
