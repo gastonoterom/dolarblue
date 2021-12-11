@@ -10,26 +10,17 @@ __email__ = "mail@gastonotero.com"
 # Initialize environment
 from dotenv import load_dotenv # pylint: disable=wrong-import-order
 load_dotenv()
+# Initailize flask
+from flask import Flask  # pylint: disable=wrong-import-order
+app = Flask(__name__)
+
 
 import logging # pylint: disable=wrong-import-order
-from classes.agrofy import Agrofy
-from classes.dolar_hoy import DolarHoy
+from routes import all_sources # pylint: disable=unused-import
 
 def main() -> None:
     """Starting the server and initializing config variables"""
     logging.basicConfig()
-
-    # Fetching agrofy dolar values
-    Agrofy.update_cache()
-    # Fetching dolarhoy dolar values
-    DolarHoy.update_cache()
-
-    # Displaying cached values
-    print(Agrofy.get_cached_blue())
-    print(DolarHoy.get_cached_blue())
-    print(Agrofy.get_prev_cached_blue())
-    print(DolarHoy.get_prev_cached_blue())
-
 
 if __name__ == "__main__":
     main()

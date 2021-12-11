@@ -24,8 +24,8 @@ class DolarBlueSource(ABC):
         buy_price = cast(float,redis_db.hget(h_name, "buy"))
         sell_price = cast(float,redis_db.hget(h_name, "sell"))
         date_time = cast(float, redis_db.hget(h_name, "date_time"))
-        
-        return DolarBlue(cls.source_name, buy_price, sell_price,
+
+        return DolarBlue(cls.source_name, float(buy_price), float(sell_price),
             datetime.fromtimestamp(float(date_time)))
 
     @classmethod
