@@ -2,43 +2,24 @@
 
 from typing import Any, Dict
 from main import app
-from classes.agrofy import Agrofy
-from classes.dolar_hoy import DolarHoy
+from classes.dolar_blue_sources.all_sources import all_dolar_blue_sources
+
+@app.route("/update")
+def update_route() -> str:
+    for src in all_dolar_blue_sources:
+        src.update_cache()
+
+    return "done"
 
 @app.route("/")
 def root_route() -> Dict[str, Dict[str, Any]]:
     """Route for fetching the cached data for all the sources."""
 
     all_values: Dict[str, Dict[str, Any]] = {}
-    for source, value in zip(
-        [
-            "agrofy",
-            "dolarhoy"
-        ],
-        [
-            Agrofy.get_cached_blue(),
-            DolarHoy.get_cached_blue()
-        ]):
+
+    for src in all_dolar_blue_sources:
+        value = src.get_cached_blue()
         if value:
-            all_values[source] = value.to_dict()
-
-    return all_values
-
-@app.route("/prev")
-def prev_route() -> Dict[str, Dict[str, Any]]:
-    """Route for fetching the cached data for all the previouse sources."""
-
-    all_values: Dict[str, Dict[str, Any]] = {}
-    for source, value in zip(
-        [
-            "agrofy",
-            "dolarhoy"
-        ],
-        [
-            Agrofy.get_prev_cached_blue(),
-            DolarHoy.get_prev_cached_blue()
-        ]):
-        if value:
-            all_values[source] = value.to_dict()
+            all_values[src.source_name] = value.to_dict()
 
     return all_values

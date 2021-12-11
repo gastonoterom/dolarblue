@@ -1,84 +1,70 @@
 """Dolar blue parent module."""
 
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from datetime import datetime
-from typing import Optional, cast
+from typing import Optional
 from classes.dolar_blue import DolarBlue
-from libs.redis_cache.redis_db import redis_db
+from libs.redis_cache.redis_db import RedisDb
 
-class DolarBlueSource(ABC):
-    """Abstract class for representing a Dolar Blue Source of information."""
+class DolarBlueSource():
+    """Class for representing a Dolar Blue Source of information."""
     source_name: str
+    cache_store: RedisDb = RedisDb()
 
     @staticmethod
     @abstractmethod
     def get_blue() -> Optional[DolarBlue]:
         """Fetch and return the dolar blue value from the source."""
+        # Subclass responsability: scraping_source, rest_api_source or xml_source
 
     @classmethod
-    def __get_cached(cls, h_name: str) -> Optional[DolarBlue]:
+    def __get_cached(cls) -> Optional[DolarBlue]:
         """Fetch and return the dolar blue value from cache."""
-        if not redis_db.exists(h_name):
+
+        dolarblue_dict = cls.cache_store.get_dict(
+            cls.source_name, "buy_price", "sell_price", "date_time"
+        )
+
+        if dolarblue_dict is None:
             return None
 
-        buy_price = cast(float,redis_db.hget(h_name, "buy"))
-        sell_price = cast(float,redis_db.hget(h_name, "sell"))
-        date_time = cast(float, redis_db.hget(h_name, "date_time"))
+        return DolarBlue(
+            source = cls.source_name,
+            buy_price = float(dolarblue_dict["buy_price"]),
+            sell_price = float(dolarblue_dict["sell_price"]),
+            date_time = datetime.strptime(str(dolarblue_dict["date_time"]), "%m-%d-%Y %H:%M:%S"),
 
-        return DolarBlue(cls.source_name, float(buy_price), float(sell_price),
-            datetime.fromtimestamp(float(date_time)))
+        )
 
     @classmethod
-    def __set_cached(cls, h_name: str, dolarblue: DolarBlue) -> None:
+    def __set_cached(cls, dolarblue: DolarBlue) -> None:
         """Fetch and return the dolar blue value from cache."""
-        redis_db.hset(h_name, "buy", dolarblue.buy_price)
-        redis_db.hset(h_name, "sell", dolarblue.sell_price)
-        redis_db.hset(h_name, "date_time", dolarblue.date_time.timestamp())
+        cls.cache_store.store_dict(cls.source_name, dolarblue.to_dict())
 
     @classmethod
     def get_cached_blue(cls) -> Optional[DolarBlue]:
         """Fetch and return the dolar blue value from cache."""
-        return cls.__get_cached(cls.source_name)
+        return cls.__get_cached()
 
-    @classmethod
-    def get_prev_cached_blue(cls) -> Optional[DolarBlue]:
-        """Fetch and return the previously working dolar blue value from cache."""
-        return cls.__get_cached(cls.source_name + "_prev")
 
     @classmethod
     def set_blue_in_cache(cls, dolarblue: DolarBlue) -> None:
         """Cache the dolar blue value to redis."""
-        cls.__set_cached(cls.source_name, dolarblue)
-
-    @classmethod
-    def set_prev_blue_in_cache(cls, dolarblue: DolarBlue) -> None:
-        """Cache the dolar blue value to redis."""
-        cls.__set_cached(cls.source_name + "_prev", dolarblue)
+        cls.__set_cached(dolarblue)
 
     @classmethod
     def erase_blue_in_cache(cls) -> None:
         """Erase the dolarblue value in redis."""
-        if not redis_db.exists(cls.source_name):
-            return None
-
-        redis_db.hdel(cls.source_name)
+        cls.cache_store.delete_dict(cls.source_name, "buy_price", "sell_price", "date_time")
 
     @classmethod
     def update_cache(cls) -> None:
         """Updates and sets the cache and prevcache for the dolar price in redis."""
 
-        # Fetching last redis value from store
-        dolarblue_cached = cls.get_cached_blue()
-
-        # Saving last redis value from store to previous value in store if not None
-        if dolarblue_cached:
-            cls.set_prev_blue_in_cache(dolarblue_cached)
-
         # Fetching dolar blue value from source
         dolarblue = cls.get_blue()
 
-        # Saving dolar blue value from source to redis, or None if error
+        # Adding the latest dolarblue in cache if found
         if dolarblue:
-            cls.set_blue_in_cache(dolarblue)
-        else:
             cls.erase_blue_in_cache()
+            cls.set_blue_in_cache(dolarblue)
