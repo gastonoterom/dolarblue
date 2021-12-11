@@ -11,16 +11,15 @@ class DolarBlueSource():
     source_name: str
     cache_store: RedisDb = RedisDb()
 
-    @staticmethod
+    @classmethod
     @abstractmethod
-    def get_blue() -> Optional[DolarBlue]:
+    def get_blue(cls) -> Optional[DolarBlue]:
         """Fetch and return the dolar blue value from the source."""
         # Subclass responsability: scraping_source, rest_api_source or xml_source
 
     @classmethod
-    def __get_cached(cls) -> Optional[DolarBlue]:
+    def get_cached_blue(cls) -> Optional[DolarBlue]:
         """Fetch and return the dolar blue value from cache."""
-
         dolarblue_dict = cls.cache_store.get_dict(
             cls.source_name, "buy_price", "sell_price", "date_time"
         )
@@ -33,24 +32,12 @@ class DolarBlueSource():
             buy_price = float(dolarblue_dict["buy_price"]),
             sell_price = float(dolarblue_dict["sell_price"]),
             date_time = datetime.strptime(str(dolarblue_dict["date_time"]), "%m-%d-%Y %H:%M:%S"),
-
         )
-
-    @classmethod
-    def __set_cached(cls, dolarblue: DolarBlue) -> None:
-        """Fetch and return the dolar blue value from cache."""
-        cls.cache_store.store_dict(cls.source_name, dolarblue.to_dict())
-
-    @classmethod
-    def get_cached_blue(cls) -> Optional[DolarBlue]:
-        """Fetch and return the dolar blue value from cache."""
-        return cls.__get_cached()
-
 
     @classmethod
     def set_blue_in_cache(cls, dolarblue: DolarBlue) -> None:
         """Cache the dolar blue value to redis."""
-        cls.__set_cached(dolarblue)
+        cls.cache_store.store_dict(cls.source_name, dolarblue.to_dict())
 
     @classmethod
     def erase_blue_in_cache(cls) -> None:
