@@ -1,7 +1,7 @@
 # Dolar blue rest API
 
 ## Introduction
-Dolar Blue Rest API is a backend service for fetching and the price for the "Dolar Blue" in Argentina from the most popular sources.
+Dolar Blue Rest API is a backend service for fetching the price for the "Dolar Blue" in Argentina from the most popular sources.
 
 Argentina has a lifelong issue with its currency: The Argentinian Peso. One of the measures our govt. took to battle its ongoing deprecation is to limit the purchase of US dollars (and any other currency) to its citizens.
 
