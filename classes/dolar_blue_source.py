@@ -37,6 +37,9 @@ class DolarBlueSource():
     @classmethod
     def set_blue_in_cache(cls, dolarblue: DolarBlue) -> None:
         """Cache the dolar blue value to redis."""
+        dolarblue_dict = dolarblue.to_dict()
+        # Average price is calculated so storing it is unnecessary
+        del dolarblue_dict["average_price"]
         cls.cache_store.store_dict(cls.source_name, dolarblue.to_dict())
 
     @classmethod

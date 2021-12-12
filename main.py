@@ -15,8 +15,10 @@ load_dotenv()
 from flask import Flask  # pylint: disable=wrong-import-order
 from flask.logging import create_logger # pylint: disable=wrong-import-order
 
+from telegram_bot.start_telegram_bot import start_telegram_bot
+
 app = Flask(__name__)
 flask_logger = create_logger(app)
+start_telegram_bot()
 
-
-from routes import root
+from routes import root # pylint: disable=unused-import
