@@ -7,7 +7,7 @@ Argentina has a lifelong issue with its currency: The Argentinian Peso. One of t
 
 The average Argentinian is not able to go to the bank and get rid of his/her hard-earned Argentinian pesos (by buying foreign currency), which becomes worthless after a couple of months because of our rampant inflation levels.
 
-So, the average Argentinian has to resort to the "unregulated" currency market, but of course, that has its flaws: there is no standardized/centralized way to know the price of the US dollar. The parallel (BLUE) market might seem like a libertarian's utopia, everything is regulated by pure supply and demand but there is a catch: there are many different sources to get the current price of the "Dolar Blue", so this API serves as a way to at least try to centralize and group the most popular sources into only one place.
+So, the average Argentinian has to resort to the "unregulated" currency market, but of course, that has its flaws: there is no standardized/centralized way to know the price of the US dollar. The parallel (BLUE) market might seem like a libertarian's utopia, everything is regulated by pure supply and demand, but there is a catch: there are too many different sources to get the current price of the "Dolar Blue". This API serves as a way to at least try to centralize and group the most popular sources into only one place.
 
 The "Dolar Blue" refers to how we call the unregulated US dollar in the parallel markets.
 
