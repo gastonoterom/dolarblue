@@ -48,8 +48,9 @@ class DolarBlueSource():
         cls.cache_store.delete_dict(cls.source_name, "buy_price", "sell_price", "date_time")
 
     @classmethod
-    def update_cache(cls) -> None:
-        """Updates and sets the cache and prevcache for the dolar price in redis."""
+    def update_cache(cls) -> bool:
+        """Updates and sets the cache and prevcache for the dolar price in redis. Returns True
+        if update was successful or False if it failed"""
 
         # Fetching dolar blue value from source
         dolarblue = cls.get_blue()
@@ -58,3 +59,6 @@ class DolarBlueSource():
         if dolarblue:
             cls.erase_blue_in_cache()
             cls.set_blue_in_cache(dolarblue)
+            return True
+
+        return False

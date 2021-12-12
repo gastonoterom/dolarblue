@@ -14,7 +14,7 @@ class DolarBlue():
     @property
     def average(self) -> float:
         """Calculate the average between the sell and buy price"""
-        return (self.buy_price + self.sell_price) / 2
+        return round((self.buy_price + self.sell_price) / 2, 2)
 
     def to_dict(self) -> Dict[str, Any]:
         """Returns the dolarblue object as a JSON serializable dictionary."""
