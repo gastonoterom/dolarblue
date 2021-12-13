@@ -25,6 +25,7 @@ class SeleniumDriverFactory():
             options.headless = HEADLESS_SELENIUM
             options.add_argument("--silent")
             options.add_argument("--log-level=3")
+
         if remote_url:
             return cls.get_remote_driver(options, remote_url)
         else:

@@ -9,20 +9,24 @@ class RedisDb:
 
     @classmethod
     def store_dict(cls, h_name: str, h_dict: Dict[str, Any]) -> None:
-        """Stores a dictionary in redis as a hashmap."""
+        """Stores a dictionary in redis as a hashmap, key values must be primitive values."""
         for key, value in h_dict.items():
             cls.redis_conn.hset(h_name, key, value)
 
     @classmethod
-    def get_dict(cls, h_name: str, *args: str) -> Optional[Dict[str, Any]]:
-        """Returns a dictionary with all the values found in the redis cache of the element."""
+    def get_dict(cls, h_name: str, *args: str) -> Optional[Dict[str, str]]:
+        """Returns a dictionary with all the values found in the redis cache of the element.
+        Dictionary values will be parsed as strings. They should be parsed into other types
+        as the business logic requires."""
 
         if not cls.redis_conn.exists(h_name):
             return None
 
-        return_dict = {}
+        return_dict: Dict[str, str] = {}
         for arg in args:
-            return_dict[arg] = cls.redis_conn.hget(h_name, arg)
+            val = cls.redis_conn.hget(h_name, arg)
+            if val:
+                return_dict[arg] = str(cls.redis_conn.hget(h_name, arg))
         return return_dict
 
     @classmethod

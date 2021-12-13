@@ -7,8 +7,8 @@ from flask.wrappers import Response
 from main import app
 from classes.dolar_blue_sources.all_sources import all_dolar_blue_sources
 
-@app.route("/")
-def root_route() -> Response:
+@app.get("/get_all")
+def get_all_route() -> Response:
     """Route for fetching the cached data for all the sources."""
 
     all_values: Dict[str, Dict[str, Any]] = {}
