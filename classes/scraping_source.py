@@ -1,13 +1,13 @@
 """Dolar blue scraping parent module."""
 
 from typing import Callable, Optional, Tuple
+import logging
 from bs4 import BeautifulSoup
 from selenium.webdriver.remote.webdriver import WebDriver
 from classes.dolar_blue import DolarBlue
 from classes.dolar_blue_source import DolarBlueSource
 from libs.scraping.exceptions.scraping_error import ScrapingException
 from libs.scraping.scrape_page import scrape_dolar_values_from_source
-from main import flask_logger
 
 class ScrapingSource(DolarBlueSource):
     """Class for representing a Dolar Blue NON rest-api scrapable Source of information."""
@@ -28,6 +28,6 @@ class ScrapingSource(DolarBlueSource):
             )
 
         except ScrapingException as scep:
-            flask_logger.error(scep)
-            flask_logger.error("Error fetching %s dolar blue value", cls.source_name)
+            logging.error(scep)
+            logging.error("Error fetching %s dolar blue value", cls.source_name)
             return None
