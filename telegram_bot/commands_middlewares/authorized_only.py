@@ -1,5 +1,6 @@
 """Middleware function for authorized only bot commands."""
 
+import logging
 from typing import Callable
 import os
 from telegram.ext.callbackcontext import CallbackContext

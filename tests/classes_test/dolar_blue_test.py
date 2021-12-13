@@ -6,7 +6,7 @@ from classes.dolar_blue import DolarBlue
 
 class TestDolarBlue(unittest.TestCase):
 
-    def test_init(self) -> None:
+    def test_dolarblue(self) -> None:
 
         date_now = datetime.now().timestamp()
         dolar_blue = DolarBlue("agrofy", 99.5, 200.5)

@@ -1,6 +1,7 @@
 """Handler for bot command actualizar."""
 
 from datetime import datetime
+import logging
 from telegram import Update
 import telegram
 from telegram.ext import CallbackContext
@@ -10,7 +11,7 @@ from telegram_bot.commands_middlewares.authorized_only import authorized_only
 @authorized_only
 def actualizar(update: Update, context: CallbackContext) -> None:
     """Handles the actualizar bot command, which updates all the dolarblue cached values"""
-
+    logging.info("Updating dolarblue values")
     assert update.effective_chat is not None
 
     context.bot.send_message(
@@ -28,9 +29,10 @@ def actualizar(update: Update, context: CallbackContext) -> None:
         success = src.update_cache()
         if success:
             response += "exito\n"
+            logging.info("Success updating %s values", src.source_name)
         else:
             response += "fallo\n"
-
+            logging.info("Failure updating %s values", src.source_name)
 
     context.bot.send_message(
             chat_id=update.effective_chat.id,

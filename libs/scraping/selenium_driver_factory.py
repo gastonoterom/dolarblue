@@ -8,7 +8,7 @@ from consts.selenium import HEADLESS_SELENIUM
 
 
 class SeleniumDriverFactory():
-    """This class has static methods for constructing selenium driver objects."""
+    """This class has class methods for constructing selenium driver objects."""
 
     @classmethod
     def get_driver(
@@ -25,6 +25,8 @@ class SeleniumDriverFactory():
             options.headless = HEADLESS_SELENIUM
             options.add_argument("--silent")
             options.add_argument("--log-level=3")
+            options.add_experimental_option('excludeSwitches', ['enable-logging'])
+
 
         if remote_url:
             return cls.get_remote_driver(options, remote_url)
@@ -41,4 +43,7 @@ class SeleniumDriverFactory():
     def get_remote_driver(options: Options, remote_url: str) -> WebDriver:
         """Creates and returns a remote selenium driver to the specified url."""
 
-        return webdriver.Remote(remote_url, options.to_capabilities())
+        return webdriver.Remote(
+            command_executor=remote_url,
+            options=options
+        )
