@@ -45,7 +45,7 @@ class DolarBlueSource():
     @classmethod
     def erase_blue_in_cache(cls) -> None:
         """Erase the dolarblue value in redis."""
-        cls.cache_store.delete_dict(cls.source_name, "buy_price", "sell_price", "date_time")
+        cls.cache_store.delete_dict(cls.source_name)
 
     @classmethod
     def update_cache(cls) -> bool:

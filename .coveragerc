@@ -2,16 +2,16 @@
 [run]
 branch = True
 omit =
-        *Test*
+        *tests*
         */usr/local/lib*
         */__init__.py
-
+        *consts*
 
 [report]
 omit =
-        *Test*
+        *tests*
         */__init__.py
-
+        *consts*
 # Regexes for lines to exclude from consideration
 exclude_lines =
     # Have to re-enable the standard pragma
