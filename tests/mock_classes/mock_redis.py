@@ -1,6 +1,6 @@
 # pylint: disable=missing-docstring
 
-from typing import Any, Optional
+from typing import Any
 
 class MockRedis:
 
