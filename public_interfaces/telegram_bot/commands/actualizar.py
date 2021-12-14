@@ -5,7 +5,7 @@ import logging
 from telegram import Update
 import telegram
 from telegram.ext import CallbackContext
-from classes import all_dolar_blue_sources
+from classes.dolar_blue_sources import all_dolar_blue_sources
 from public_interfaces.telegram_bot.commands_middlewares.authorized_only import authorized_only
 
 @authorized_only

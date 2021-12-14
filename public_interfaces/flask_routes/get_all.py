@@ -5,7 +5,7 @@ from typing import Any, Dict
 
 from flask.wrappers import Response
 from main import app
-from classes.dolar_blue_sources.all_sources import all_dolar_blue_sources
+from classes.dolar_blue_sources import all_dolar_blue_sources
 
 @app.get("/get_all")
 def get_all_route() -> Response:

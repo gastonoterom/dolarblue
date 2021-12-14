@@ -3,7 +3,7 @@
 from telegram import Update
 import telegram
 from telegram.ext import CallbackContext
-from classes import all_dolar_blue_sources
+from classes.dolar_blue_sources import all_dolar_blue_sources
 
 def ver_valores(update: Update, context: CallbackContext) -> None:
     """Handles the ver_valores bot command, which sends the user all the dolarblue cached values"""
