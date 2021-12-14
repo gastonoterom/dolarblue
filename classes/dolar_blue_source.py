@@ -11,11 +11,7 @@ class DolarBlueSource(ABC):
     source_name: str
     cache_store: RedisDb = RedisDb()
 
-    def __init__(
-        self,
-        source_name:str,
-        cache_store: Optional[RedisDb] = None
-    ):
+    def __init__(self, source_name:str, cache_store: Optional[RedisDb] = None):
         self.source_name = source_name
 
         if cache_store:

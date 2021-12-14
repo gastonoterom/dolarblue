@@ -10,6 +10,16 @@ from libs.scraping.config import HEADLESS_SELENIUM
 class SeleniumDriverFactory():
     """This class has class methods for constructing selenium driver objects."""
 
+    @staticmethod
+    def get_default_options() -> Options:
+        """Get default options for the selenium driver."""
+        options = Options()
+        options.headless = HEADLESS_SELENIUM
+        options.add_argument("--silent")
+        options.add_argument("--log-level=3")
+        options.add_experimental_option('excludeSwitches', ['enable-logging'])
+        return options
+
     @classmethod
     def get_driver(
         cls,
@@ -18,15 +28,10 @@ class SeleniumDriverFactory():
         ) -> WebDriver:
         """Creates and returns a local or remote selenium driver,
         depending if the remote url was given or not,
-        if options not given it just returns a headless driver"""
+        if options not given it just returns a driver with default options"""
 
         if options is None:
-            options = Options()
-            options.headless = HEADLESS_SELENIUM
-            options.add_argument("--silent")
-            options.add_argument("--log-level=3")
-            options.add_experimental_option('excludeSwitches', ['enable-logging'])
-
+            options = cls.get_default_options()
 
         if remote_url:
             return cls.get_remote_driver(options, remote_url)

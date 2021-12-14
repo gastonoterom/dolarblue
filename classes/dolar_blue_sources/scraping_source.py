@@ -30,11 +30,17 @@ class DolarScrapingSource(DolarBlueSource):
         """Fetch and return the dolar blue value from the source."""
         try:
             assert driver is not None
-            return scrape_dolar_values_from_source(
-                self.source_name,
+
+            buy_price, sell_price = scrape_dolar_values_from_source(
                 self.selenium_fetching,
                 self.soup_scraping,
                 driver
+            )
+
+            return DolarBlue(
+                source=self.source_name,
+                buy_price=buy_price,
+                sell_price=sell_price,
             )
 
         except ScrapingException as scep:
@@ -44,4 +50,5 @@ class DolarScrapingSource(DolarBlueSource):
 
     def get_blue(self):
         """Fetch and return the scraped dolar blue value from the source."""
+        # The selenium driver is injected by the decorator
         return self.get_scraped_blue()
