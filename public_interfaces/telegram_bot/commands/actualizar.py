@@ -6,7 +6,7 @@ from telegram import Update
 import telegram
 from telegram.ext import CallbackContext
 from classes.dolar_blue_sources.all_sources import all_dolar_blue_sources
-from telegram_bot.commands_middlewares.authorized_only import authorized_only
+from public_interfaces.telegram_bot.commands_middlewares.authorized_only import authorized_only
 
 @authorized_only
 def actualizar(update: Update, context: CallbackContext) -> None:

@@ -3,7 +3,7 @@
 import logging
 from os import environ
 from telegram.ext import Updater
-from telegram_bot.handlers import all_handlers
+from public_interfaces.telegram_bot.handlers import all_handlers
 
 def start_telegram_bot() -> None:
     """Start the telegram bot"""

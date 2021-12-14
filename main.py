@@ -25,8 +25,8 @@ app = Flask(__name__)
 logging.info("Starting Flask server.")
 
 # Import routes
-from routes import get_all
+from public_interfaces.flask_routes import get_all
 
 # Initialize telegram bot
-from telegram_bot.start_telegram_bot import start_telegram_bot
+from public_interfaces.telegram_bot.start_telegram_bot import start_telegram_bot
 start_telegram_bot()

@@ -6,7 +6,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from consts.dolar_blue_sources.info_dolar import INFODOLAR_URL
+from libs.scraping.dolar_blue_sources.config import INFODOLAR_URL
 
 def infodolar_soup_scraping(soup: BeautifulSoup) -> Tuple[float, float]:
     """Beautiful soup scraping for infodolar dolar blue values,

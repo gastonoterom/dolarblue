@@ -1,37 +1,15 @@
 """Dolar blue scraping parent module."""
 
-from typing import Any, Callable, Optional, Tuple
+from typing import Callable, Optional, Tuple
 import logging
 from bs4 import BeautifulSoup
 from selenium.webdriver.remote.webdriver import WebDriver
 from classes.dolar_blue import DolarBlue
 from classes.dolar_blue_source import DolarBlueSource
-from consts.selenium import REMOTE_SELENIUM_URL
 from libs.redis_cache.redis_db import RedisDb
 from libs.scraping.exceptions.scraping_error import ScrapingException
 from libs.scraping.scrape_page import scrape_dolar_values_from_source
-from libs.scraping.selenium_driver_factory import SeleniumDriverFactory
-
-def selenium_injection(
-        selenium_requirer: Callable[
-            [
-                Any,
-                Optional[WebDriver]
-            ],
-            Optional[Any]]
-        ):
-    """Selenium driver injector for instance function that requires it."""
-
-    def inject_driver(self, driver: Optional[WebDriver] = None) -> Optional[DolarBlue]:
-        if driver is None:
-            driver = SeleniumDriverFactory.get_driver(REMOTE_SELENIUM_URL)
-        response = selenium_requirer(self, driver)
-        if driver:
-            driver.close()
-            driver.quit()
-        return response
-
-    return inject_driver
+from libs.scraping.utils import selenium_injection
 
 class DolarScrapingSource(DolarBlueSource):
     """Class for representing a Dolar Blue NON rest-api scrapable Source of information."""

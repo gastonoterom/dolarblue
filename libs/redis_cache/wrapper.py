@@ -4,7 +4,7 @@ import logging
 from typing import Optional
 from redis import Redis
 import redis
-from consts.redis import REDIS_DB, REDIS_HOST, REDIS_PORT
+from libs.redis_cache.config import REDIS_DB, REDIS_HOST, REDIS_PORT
 
 class RedisWrapper:
     """Redis wrapper"""

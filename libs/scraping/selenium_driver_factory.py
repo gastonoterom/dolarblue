@@ -4,7 +4,7 @@ from typing import Optional
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.remote.webdriver import WebDriver
-from consts.selenium import HEADLESS_SELENIUM
+from libs.scraping.config import HEADLESS_SELENIUM
 
 
 class SeleniumDriverFactory():
