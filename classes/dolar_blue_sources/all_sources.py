@@ -2,7 +2,7 @@
 
 from typing import List
 from classes.dolar_blue_source import DolarBlueSource
-from classes.dolar_blue_sources.scraping_source import DolarScrapingSource
+from classes.dolar_blue_sources import DolarScrapingSource
 
 from libs.scraping.dolar_blue_sources.agrofy.utils \
     import agrofy_selenium_fetching, agrofy_soup_scraping

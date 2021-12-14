@@ -18,7 +18,6 @@ logging.basicConfig(level=logging.INFO)
 
 # Initailize flask
 from flask import Flask
-from flask.logging import create_logger
 
 app = Flask(__name__)
 

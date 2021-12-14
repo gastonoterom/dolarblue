@@ -25,3 +25,12 @@ def get_all_route() -> Response:
     )
 
     return response
+
+@app.get("/update")
+def update_cache() -> str:
+    """TESTING"""
+
+    for src in all_dolar_blue_sources:
+        src.update_cache()
+
+    return "done"
