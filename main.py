@@ -16,20 +16,22 @@ from dotenv import load_dotenv
 load_dotenv()
 logging.basicConfig(level=logging.INFO)
 
-# Initailize flask
+# Initailize flask & routes
 from flask import Flask
 
+logging.info("Starting Flask server.")
 app = Flask(__name__)
 
-logging.info("Starting Flask server.")
-
-# Import routes
 import src.public_interfaces.flask_routes.get_all
 
 # Initialize telegram bot
 from src.public_interfaces.telegram_bot.start_bot import start_telegram_bot
+
+logging.info("Starting Telegram bot.")
 start_telegram_bot()
 
-# Initialize "update-values" subscriber
-from src.pub_sub.subscribers.update_values_sub import sub_update_values
-sub_update_values()
+# Initialize main "update-dolarblue-values" subscriber
+from src.pub_sub.main_dolarblue_updater import dolarblue_update_request_handler
+
+logging.info("Starting main dolarblue update request handler.")
+dolarblue_update_request_handler()

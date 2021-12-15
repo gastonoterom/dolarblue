@@ -4,11 +4,11 @@ import logging
 from datetime import datetime
 import telegram
 from telegram import Bot
-from src.pub_sub.subscribers.update_values_sub import sub_values_updated
+from src.pub_sub.subscribers.update_values_sub import dolarblue_cache_updated
 from src.public_interfaces.telegram_bot.config import ALLOWED_CHAT_ID, ADMIN_CHAT_ID
 
 
-def send_dolarvalue_report(bot: Bot) -> None:
+def send_dolarblue_report(bot: Bot) -> None:
     """Subscribes the report handler to the values-updated event in pubsub
     to send the report to the admin when the process is finished."""
 
@@ -28,4 +28,6 @@ def send_dolarvalue_report(bot: Bot) -> None:
             parse_mode=telegram.ParseMode.MARKDOWN
         )
 
-    sub_values_updated(handle_report)
+    dolarblue_cache_updated(
+        handler=handle_report
+    )
