@@ -1,0 +1,4 @@
+import os
+
+ALLOWED_CHAT_ID = int(os.environ.get("ALLOWED_CHAT_ID"))
+ADMIN_CHAT_ID = ALLOWED_CHAT_ID

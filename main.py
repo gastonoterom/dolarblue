@@ -24,8 +24,12 @@ app = Flask(__name__)
 logging.info("Starting Flask server.")
 
 # Import routes
-from public_interfaces.flask_routes import get_all
+import src.public_interfaces.flask_routes.get_all
 
 # Initialize telegram bot
-from public_interfaces.telegram_bot.start_telegram_bot import start_telegram_bot
+from src.public_interfaces.telegram_bot.start_bot import start_telegram_bot
 start_telegram_bot()
+
+# Initialize "update-values" subscriber
+from src.pub_sub.subscribers.update_values_sub import sub_update_values
+sub_update_values()

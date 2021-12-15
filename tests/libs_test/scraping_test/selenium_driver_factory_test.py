@@ -5,7 +5,7 @@ import unittest
 from time import sleep
 
 from selenium.webdriver.chrome.options import Options
-from libs.scraping.selenium_driver_factory import SeleniumDriverFactory
+from src.libs import SeleniumDriverFactory
 from tests.testing_consts import TESTING_SELENIUM_URL
 
 class TestSeleniumDriverFactory(unittest.TestCase):

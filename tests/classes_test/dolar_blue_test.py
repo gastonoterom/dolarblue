@@ -2,7 +2,7 @@
 
 import unittest
 from datetime import datetime
-from classes.dolar_blue import DolarBlue
+from src.classes.dolar_blue import DolarBlue
 
 class TestDolarBlue(unittest.TestCase):
 

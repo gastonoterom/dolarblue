@@ -2,7 +2,7 @@
 
 import unittest
 import redis
-from libs.redis_cache.redis_db import RedisDb
+from src.libs.redis_cache.redis_db import RedisDb
 from tests.testing_consts import REDIS_TEST_DB, REDIS_TEST_HOST, REDIS_TEST_PORT
 
 
