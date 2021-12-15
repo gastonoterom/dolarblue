@@ -9,10 +9,19 @@ class TestRedisWrapper(unittest.TestCase):
 
     def test_redis_wrapper(self) -> None:
 
-        redis_w = RedisWrapper(
+        redis_default_w = RedisWrapper()
+        self.assertIsNotNone(redis_default_w.redis_db)
+
+        redis_conn = Redis(
             host=REDIS_TEST_HOST,
             port=REDIS_TEST_PORT,
-            db_num=REDIS_TEST_DB
+            db=REDIS_TEST_DB,
+            decode_responses=True,
+            encoding="utf-8"
+        )
+
+        redis_w = RedisWrapper(
+            redis_conn
         )
 
         redis_db = redis_w.get_connection()

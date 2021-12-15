@@ -1,44 +1,28 @@
 """Wrapper for redis cache objects"""
 
-import logging
 from typing import Optional
 from redis import Redis
-import redis
 from libs.redis_cache.config import REDIS_DB, REDIS_HOST, REDIS_PORT
+
+default_redis_db = Redis(
+    host=REDIS_HOST,
+    port=REDIS_PORT,
+    db=REDIS_DB,
+    decode_responses=True,
+    encoding="utf-8"
+)
 
 class RedisWrapper:
     """Redis wrapper"""
 
     def __init__(
             self,
-            host: Optional[str]=None,
-            db_num: Optional[int]=None,
-            port: Optional[int]=None
+            redis_db: Optional[Redis] = None
         ):
 
         """Initialize a redis wrapper with connection setting values"""
-        if host:
-            self.host = host
-        else:
-            self.host = REDIS_HOST
-
-        if db_num:
-            self.db_num = db_num
-        else:
-            self.db_num = REDIS_DB
-
-        if port:
-            self.port = port
-        else:
-            self.port = REDIS_PORT
+        self.redis_db = redis_db if redis_db else default_redis_db
 
     def get_connection(self) -> Redis:
-        """Builds and returns a Redis object for database connection"""
-        logging.info("Getting connection from redis")
-        return redis.Redis(
-            host=self.host,
-            port=self.port,
-            db=self.db_num,
-            decode_responses=True,
-            encoding="utf-8"
-        )
+        """Gets a redis connection from the wrapper"""
+        return self.redis_db

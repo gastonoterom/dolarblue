@@ -5,7 +5,7 @@ from typing import Any, Dict
 
 from flask.wrappers import Response
 from main import app
-from classes.dolar_blue_sources import all_dolar_blue_sources
+from classes import DolarBlueSource
 
 @app.get("/get_all")
 def get_all_route() -> Response:
@@ -13,7 +13,7 @@ def get_all_route() -> Response:
 
     all_values: Dict[str, Dict[str, Any]] = {}
 
-    for src in all_dolar_blue_sources:
+    for src in DolarBlueSource.get_all():
         value = src.get_cached_blue()
         if value:
             all_values[src.source_name] = value.to_dict()
@@ -30,7 +30,7 @@ def get_all_route() -> Response:
 def update_cache() -> str:
     """TESTING"""
 
-    for src in all_dolar_blue_sources:
+    for src in DolarBlueSource.get_all():
         src.update_cache()
 
     return "done"

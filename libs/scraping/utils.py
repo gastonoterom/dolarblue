@@ -6,17 +6,19 @@ from libs.scraping.config import REMOTE_SELENIUM_URL
 from libs.scraping.selenium_driver_factory import SeleniumDriverFactory
 
 class MethodNotCompatibleError(Exception):
-    """Exception for incompatible decorated methods"""
-class NonSeleniumDriverException(Exception):
-    """Exception when the function is called with a NON selenium driver."""
+    """Exception for methods decoreated that
+    don't support the 'driver: Optional[WebDriver]' argument"""
 
-def selenium_injection( selenium_requirer: Callable ):
-    """Selenium driver injector for method that requires it as driver kwarg.
-    Decorated function MUST have a 'driver: Optional[WebDriver]' argument!"""
+class NonSeleniumDriverException(Exception):
+    """Exception when the function is called with a NON selenium driver as a driver kwarg."""
+
+def selenium_provided( selenium_requirer: Callable ):
+    """This function as a decorator sends as an arg and closes a selenium driver to a function
+    that accepts it. Decorated function MUST have a 'driver: Optional[WebDriver]' argument!"""
     inspected_requirer = inspect.getfullargspec(selenium_requirer)
 
-    def inject_driver(*args, **kwargs) -> Optional[Any]:
-        """Inject the driver into the selenium_requirer function"""
+    def provide_driver(*args, **kwargs) -> Optional[Any]:
+        """Provide the driver into the selenium_requirer function"""
 
         # Check that the injected function accepts "driver: Optional[WebDriver]" as an argument
         if "driver" not in inspected_requirer.args or \
@@ -50,4 +52,4 @@ def selenium_injection( selenium_requirer: Callable ):
 
         return response
 
-    return inject_driver
+    return provide_driver

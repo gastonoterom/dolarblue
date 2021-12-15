@@ -7,6 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from libs.scraping.dolar_blue_sources.config import AGROFY_URL
+from libs.scraping.scrape_page import scrape_dolar_values_from_source
 
 def agrofy_soup_scraping(soup: BeautifulSoup) -> Tuple[float, float]:
     """Beautiful soup scraping for agrofy dolar blue values,
@@ -50,3 +51,11 @@ def agrofy_selenium_fetching(driver: WebDriver) -> str:
 
     except Exception as err:
         raise Exception("Error fetching agrofy page") from err
+
+def scrape_agrofy_values():
+    """Returns a scraping function for agrofy"""
+
+    return scrape_dolar_values_from_source(
+        agrofy_selenium_fetching,
+        agrofy_soup_scraping
+    )

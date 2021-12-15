@@ -53,13 +53,16 @@ class TestSeleniumDriverFactory(unittest.TestCase):
         driver.quit()
 
     def test_selenium_remote_driver(self) -> None:
-        self.start_docker_selenium()
+        try:
+            self.start_docker_selenium()
+            driver = SeleniumDriverFactory.get_driver(TESTING_SELENIUM_URL)
 
-        driver = SeleniumDriverFactory.get_driver(TESTING_SELENIUM_URL)
-        driver.close()
-        driver.quit()
+        finally:
+            if driver:
+                driver.close()
+                driver.quit()
 
-        self.stop_docker_selenium()
+            self.stop_docker_selenium()
 
     def test_selenium_driver_with_options(self) -> None:
 

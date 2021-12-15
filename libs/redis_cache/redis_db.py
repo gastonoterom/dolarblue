@@ -1,5 +1,5 @@
 """Redis database for cache"""
-from typing import Any, Dict, Optional
+from typing import Dict, Optional
 from redis import Redis
 from libs.redis_cache.wrapper import RedisWrapper
 
@@ -13,7 +13,7 @@ class RedisDb:
         else:
             self.redis_conn = RedisWrapper().get_connection()
 
-    def store_dict(self, h_name: str, h_dict: Dict[str, Any]) -> None:
+    def store_dict(self, h_name: str, h_dict: dict) -> None:
         """Stores a dictionary in redis as a hashmap, key values must be primitive values."""
         for key, value in h_dict.items():
             self.redis_conn.hset(h_name, key, value)

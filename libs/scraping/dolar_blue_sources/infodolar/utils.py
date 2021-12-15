@@ -7,6 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from libs.scraping.dolar_blue_sources.config import INFODOLAR_URL
+from libs.scraping.scrape_page import scrape_dolar_values_from_source
 
 def infodolar_soup_scraping(soup: BeautifulSoup) -> Tuple[float, float]:
     """Beautiful soup scraping for infodolar dolar blue values,
@@ -42,3 +43,11 @@ def infodolar_selenium_fetching(driver: WebDriver) -> str:
 
     except Exception as err:
         raise Exception("Error fetching infodolar page") from err
+
+def scrape_infodolar_values():
+    """Returns a scraping function for infodolar"""
+
+    return scrape_dolar_values_from_source(
+        infodolar_selenium_fetching,
+        infodolar_soup_scraping
+    )
