@@ -59,7 +59,7 @@ class RedisSub:
     def close(self):
         self.redis_pubsub.close()
         self.threads = {}
-        self.close = True
+        self.closed = True
 
 class RedisPub:
     """Redis publisher class."""

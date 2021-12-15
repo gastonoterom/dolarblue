@@ -2,6 +2,7 @@
 
 import logging
 from os import environ
+from typing import Callable, List
 
 from telegram import Bot
 from telegram.ext import Updater, CommandHandler
@@ -21,7 +22,7 @@ def start_telegram_bot() -> None:
         CommandHandler("actualizar", actualizar)
     ]
 
-    messages: callable[[Bot], None] = [
+    messages: List[Callable]= [
         send_dolarblue_report
     ]
 
@@ -29,6 +30,6 @@ def start_telegram_bot() -> None:
         dispatcher.add_handler(handler)
 
     for message in messages:
-        message(updater.bot)
+        message(bot=updater.bot)
 
     updater.start_polling()

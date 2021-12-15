@@ -31,7 +31,7 @@ logging.info("Starting Telegram bot.")
 start_telegram_bot()
 
 # Initialize main "update-dolarblue-values" subscriber
-from src.pub_sub.main_dolarblue_updater import dolarblue_update_request_handler
+from src.pub_sub.main_dolarblue_updater import handle_dolarblue_update_request
 
 logging.info("Starting main dolarblue update request handler.")
-dolarblue_update_request_handler()
+handle_dolarblue_update_request()
