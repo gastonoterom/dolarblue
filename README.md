@@ -1,6 +1,7 @@
 # Dolar blue rest API
 
 ## Introduction
+
 Dolar Blue Rest API is a backend service for fetching the price of the "Dolar Blue" in Argentina from the most popular sources.
 
 Argentina has a lifelong issue with its currency: The Argentinian Peso. One of the measures our govt. took to battle its ongoing deprecation is to limit the purchase of US dollars (and any other currency) to its citizens.
@@ -28,6 +29,6 @@ The bot is found at telegram as [@dolarblue_ars_bot](https://t.me/dolarblue_ars_
 
 ## Tech stack
 
-This project uses Python as the main programming language. 
-It scrapes the different sources with beautifulsoup4 and saves the data to a Redis cache for quick access. 
-Flask is used as the backend server for the REST API, and the python-telegram-bot package as the API layer for Telegram.
+This project uses Python as the main programming language.
+It scrapes the different sources with beautifulsoup4 and saves the data to a Redis cache for quick access.
+FastApi is used as the backend server for the REST API, and the python-telegram-bot package as the API layer for Telegram.
