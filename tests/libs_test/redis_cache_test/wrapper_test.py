@@ -1,9 +1,8 @@
-# pylint: disable=missing-docstring
-
 import unittest
 from redis import Redis
 from src.libs.redis_cache.wrapper import RedisWrapper
 from tests.testing_consts import REDIS_TEST_DB, REDIS_TEST_HOST, REDIS_TEST_PORT
+
 
 class TestRedisWrapper(unittest.TestCase):
 

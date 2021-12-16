@@ -4,7 +4,7 @@ from typing import Dict
 import telegram
 from telegram import Bot
 from src.pub_sub.subscribers.update_values_sub import subscribe_to_cache_updated
-from src.public_interfaces.telegram_bot.config import  ADMIN_CHAT_ID
+from src.public_interfaces.telegram_bot.config import ADMIN_CHAT_ID
 
 
 @subscribe_to_cache_updated

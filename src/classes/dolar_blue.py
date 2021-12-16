@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime
+from typing import Any, Dict
 
 
 @dataclass
@@ -16,7 +17,7 @@ class DolarBlue:
         """Calculate the average between the sell and buy price"""
         return round((self.buy_price + self.sell_price) / 2, 2)
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> Dict[str, Any]:
         """Returns the dolarblue object as a JSON serializable dictionary."""
 
         return {

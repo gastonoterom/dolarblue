@@ -1,5 +1,3 @@
-"""Dolar blue scraper for the site infodolar.com"""
-
 from typing import List, Tuple
 from bs4 import BeautifulSoup
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -18,11 +16,12 @@ def infodolar_soup_scraping(soup: BeautifulSoup) -> Tuple[float, float]:
     try:
         prices: List[float] = []
 
-        for _,row in enumerate(
-            soup.find_all("table", id="CompraVenta")[0].find_all("td", class_="colCompraVenta")
+        for _, row in enumerate(
+            soup.find_all("table", id="CompraVenta")[
+                0].find_all("td", class_="colCompraVenta")
         ):
             row.find("span").decompose()
-            price = row.text.rstrip().replace(" ","").replace("$", "").replace(",",".")
+            price = row.text.rstrip().replace(" ", "").replace("$", "").replace(",", ".")
             prices.append(float(price))
 
         return prices[0], prices[1]
@@ -47,7 +46,7 @@ def infodolar_selenium_fetching(driver: WebDriver) -> str:
         raise Exception("Error fetching infodolar page") from err
 
 
-def scrape_infodolar_values() -> (float, float):
+def scrape_infodolar_values() -> Tuple[float, float]:
     """Scraping function for infodolar"""
 
     return scrape_dolar_values_from_source(

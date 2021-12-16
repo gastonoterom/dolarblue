@@ -3,10 +3,10 @@
 import subprocess
 import unittest
 from time import sleep
-
 from selenium.webdriver.chrome.options import Options
-from src.libs import SeleniumDriverFactory
 from tests.testing_consts import TESTING_SELENIUM_URL
+from src.libs.scraping.selenium_driver_factory import SeleniumDriverFactory
+
 
 class TestSeleniumDriverFactory(unittest.TestCase):
 

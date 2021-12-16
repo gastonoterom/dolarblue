@@ -1,6 +1,4 @@
-"""Dolar blue scraper for the site agrofy.com.ar"""
-
-from typing import List
+from typing import List, Tuple
 from bs4 import BeautifulSoup
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
@@ -10,7 +8,7 @@ from src.libs.scraping.dolar_blue_sources.config import AGROFY_URL
 from src.libs.scraping.scrape_page import scrape_dolar_values_from_source
 
 
-def agrofy_soup_scraping(soup: BeautifulSoup) -> (float, float):
+def agrofy_soup_scraping(soup: BeautifulSoup) -> Tuple[float, float]:
     """Beautiful soup scraping for agrofy dolar blue values,
     returns a touple with the values, the first
     one is the BUY value, the second the SELL value"""
@@ -20,7 +18,7 @@ def agrofy_soup_scraping(soup: BeautifulSoup) -> (float, float):
         title_col: int
         prices: List[float] = []
 
-        for row_i,row in enumerate(soup.find_all("tr", class_="odd-item")):
+        for row_i, row in enumerate(soup.find_all("tr", class_="odd-item")):
             for col_i, col in enumerate(row.find_all("td")):
                 if col.text == "U$ Blue":
                     wanted_row = row_i
@@ -28,7 +26,7 @@ def agrofy_soup_scraping(soup: BeautifulSoup) -> (float, float):
                     continue
 
                 if row_i == wanted_row and col_i-title_col <= 2:
-                    prices.append(float(col.text.replace(",",".")))
+                    prices.append(float(col.text.replace(",", ".")))
 
             if wanted_row:
                 break
@@ -55,7 +53,7 @@ def agrofy_selenium_fetching(driver: WebDriver) -> str:
         raise Exception("Error fetching agrofy page") from err
 
 
-def scrape_agrofy_values() -> (float, float):
+def scrape_agrofy_values() -> Tuple[float, float]:
     """Scraping function for agrofy"""
 
     return scrape_dolar_values_from_source(

@@ -1,17 +1,19 @@
 import inspect
-from typing import Callable
+from typing import Any, Callable
 from telegram.ext.callbackcontext import CallbackContext
 from telegram.update import Update
-
-from src.libs.scraping.utils import MethodNotCompatibleError
+from src.libs.custom_exceptions.fetching_exception import MethodNotCompatibleError
 from src.public_interfaces.telegram_bot.config import ALLOWED_CHAT_ID
 
 
-def authorized_only(command_handler: Callable[[Update, CallbackContext], None]):
+def authorized_only(
+    command_handler: Callable[[Update, CallbackContext], None]
+) -> Callable[..., Any]:
     """Decorator for command routes in telegram that only the bot admin can access.
 
-    For example if a critical command should not be executed, decorate the function of its handling with this.
-    Decorated function must have update: Update and context: CallbackContext as arguments."""
+    For example if a critical command should not be executed,
+    decorate the function of its handling with this. Decorated function must have
+    update: Update and context: CallbackContext as arguments."""
 
     # Inspect the function to see if it is compatible
     inspected_handler = inspect.getfullargspec(command_handler)
@@ -20,7 +22,8 @@ def authorized_only(command_handler: Callable[[Update, CallbackContext], None]):
                          inspected_handler.annotations.get("update") == Update
 
     handler_has_context = "context" in inspected_handler.args and \
-                          inspected_handler.annotations.get("context") == CallbackContext
+                          inspected_handler.annotations.get(
+                              "context") == CallbackContext
 
     if (handler_has_update and handler_has_context) is not True:
         raise MethodNotCompatibleError("Decorated function is incompatible:\
@@ -29,7 +32,8 @@ def authorized_only(command_handler: Callable[[Update, CallbackContext], None]):
     def check_access(update: Update, context: CallbackContext) -> None:
 
         if ALLOWED_CHAT_ID is not None or update.effective_chat is not None:
-            raise TypeError("ALLOWED_CHAT_ID and effective chat id CANT BE NONE")
+            raise TypeError(
+                "ALLOWED_CHAT_ID and effective chat id CANT BE NONE")
 
         if update.effective_chat.id != ALLOWED_CHAT_ID:
             context.bot.send_message(

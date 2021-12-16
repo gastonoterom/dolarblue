@@ -1,8 +1,7 @@
-# pylint: disable=missing-docstring
-
 import unittest
 from datetime import datetime
 from src.classes.dolar_blue import DolarBlue
+
 
 class TestDolarBlue(unittest.TestCase):
 

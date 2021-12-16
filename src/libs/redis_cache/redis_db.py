@@ -1,4 +1,4 @@
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 from redis import Redis
 from src.libs.redis_cache.wrapper import RedisWrapper
 
@@ -15,15 +15,15 @@ class RedisDb:
 
         self.redis_conn = redis_conn if redis_conn else RedisWrapper().get_connection()
 
-    def store_dict(self, h_name: str, h_dict: dict) -> None:
+    def store_dict(self, h_name: str, h_dict: Dict[str, Any]) -> None:
         """Stores a dictionary in redis as a hashmap, key values must be primitive values."""
 
         for key, value in h_dict.items():
             self.redis_conn.hset(h_name, key, value)
 
-    def get_dict(self, h_name: str, *args: str) -> Optional[dict]:
-        """Returns a dictionary with all the values found in the redis cache of the element. Returns None if the key
-        is not on the store.
+    def get_dict(self, h_name: str, *args: str) -> Optional[Dict[str, str]]:
+        """Returns a dictionary with all the values found in the redis cache of the element.
+        Returns None if the key is not on the store.
 
         Dictionary values should be parsed into other types
         as the business logic requires."""

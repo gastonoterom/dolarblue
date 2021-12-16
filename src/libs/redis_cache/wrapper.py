@@ -1,13 +1,10 @@
-"""Wrapper for redis cache objects"""
-
+from __future__ import annotations
 from typing import Optional
-from redis import Redis
-from redis.client import PubSub
-
+from redis.client import Redis
 from src.libs.redis_cache.config import REDIS_DB, REDIS_HOST, REDIS_PORT
 
 
-default_redis_db = Redis(
+default_redis_db: Redis = Redis(
     host=REDIS_HOST,
     port=REDIS_PORT,
     db=REDIS_DB,

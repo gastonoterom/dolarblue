@@ -1,5 +1,3 @@
-"""Dolar blue scraper for the site dolarhoy.com"""
-
 from typing import List, Tuple
 from bs4 import BeautifulSoup
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -19,7 +17,7 @@ def dolarhoy_soup_scraping(soup: BeautifulSoup) -> Tuple[float, float]:
         prices: List[float] = []
 
         for divs in soup.find_all("div", class_="value"):
-            prices.append(float(divs.text.replace("$","")))
+            prices.append(float(divs.text.replace("$", "")))
 
         return prices[0], prices[1]
 
@@ -43,7 +41,7 @@ def dolarhoy_selenium_fetching(driver: WebDriver) -> str:
         raise Exception("Error fetching dolarhoy page") from err
 
 
-def scrape_dolarhoy_values() -> (float, float):
+def scrape_dolarhoy_values() -> Tuple[float, float]:
     """Scraping function for agrofy"""
 
     return scrape_dolar_values_from_source(

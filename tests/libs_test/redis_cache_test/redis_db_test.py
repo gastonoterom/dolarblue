@@ -1,5 +1,3 @@
-# pylint: disable=missing-docstring
-
 import unittest
 import redis
 from src.libs.redis_cache.redis_db import RedisDb
@@ -37,7 +35,8 @@ class TestRedisDb(unittest.TestCase):
             sample_dict
         )
 
-        stored_dict = redis_db.get_dict("test_dict", "value_one", "value_two", "not_in_dict")
+        stored_dict = redis_db.get_dict(
+            "test_dict", "value_one", "value_two", "not_in_dict")
 
         assert stored_dict is not None
         assert "not_in_dict" not in stored_dict
