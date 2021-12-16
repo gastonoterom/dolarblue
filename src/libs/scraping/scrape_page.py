@@ -1,5 +1,3 @@
-"""Module for web scraping different sources to get the DolarBlue data"""
-
 from typing import Callable, Tuple
 from bs4 import BeautifulSoup
 
@@ -17,8 +15,9 @@ def scrape_dolar_values_from_source(
     # Selenium driver (provided by the decorator if sent None)
     driver: WebDriver
 ) -> Tuple[float, float]:
-    """Function for getting the dolar blue buy & sell value of a certain source,
+    """Function for getting the dolar blue buy & sell value of a certain source
     using the proper selenium_fetching and soup_scraping functions.
+
     If no driver sent one will be provided by the @selenium_provided."""
 
     try:

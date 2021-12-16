@@ -4,3 +4,4 @@
 .coveragerc
 .coverage
 htmlcov
+.idea/

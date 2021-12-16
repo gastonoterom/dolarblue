@@ -1,5 +1,3 @@
-"""Handler for bot command actualizar."""
-
 from datetime import datetime
 import logging
 from telegram import Update
@@ -12,7 +10,10 @@ from src.public_interfaces.telegram_bot.commands_middlewares.authorized_only imp
 
 @authorized_only
 def actualizar(update: Update, context: CallbackContext) -> None:
-    """Handles the actualizar bot command, which updates all the dolarblue cached values"""
+    """Handles the /actualizar bot command, which publishes a request to update all the dolarblue cached values
+
+    FOR ADMINS ONLY, critical operation"""
+
     assert update.effective_chat is not None
 
     # Publish an update-values request

@@ -1,10 +1,5 @@
-"""Module for strating the telegram bot and all the command handlers."""
-
-import logging
 from os import environ
 from typing import Callable, List
-
-from telegram import Bot
 from telegram.ext import Updater, CommandHandler
 from src.public_interfaces.telegram_bot.commands.actualizar import actualizar
 from src.public_interfaces.telegram_bot.commands.ver_valores import ver_valores
@@ -12,7 +7,7 @@ from src.public_interfaces.telegram_bot.messages.dolarblue_report import send_do
 
 
 def start_telegram_bot() -> None:
-    """Start the telegram bot"""
+    """Start the telegram bot with its command handlers and event-based messaging"""
 
     updater = Updater(token=environ.get('TELEGRAM_BOT_TOKEN'), use_context=True)
     dispatcher = updater.dispatcher

@@ -1,5 +1,3 @@
-"""Dolar blue parent module."""
-
 from __future__ import annotations
 from datetime import datetime
 import logging
@@ -14,12 +12,14 @@ from src.libs.scraping.dolar_blue_sources.infodolar.utils import scrape_infodola
 
 
 class DolarBlueSource:
-    """Class that represents a Dolar Blue Source of information."""
+    """Class that represents a Dolar Blue Source of information.
+
+    This class represents for example a scrapable sebsite, a rest api or an xml api
+    where we can get dolarblue values from. An example would be any major Argentinian newspaper."""
 
     @staticmethod
     def get_all() -> List[DolarBlueSource]:
         """Gets all the existent dolar blue sources."""
-
         return [
             DolarBlueSource(source_name="agrofy", fetching_function=scrape_agrofy_values),
             DolarBlueSource(source_name="infodolar", fetching_function=scrape_infodolar_values),
@@ -28,16 +28,22 @@ class DolarBlueSource:
 
     @staticmethod
     def update_all() -> dict[str, bool]:
-        """Updates all the DolarBlue values in the cache store"""
+        """Updates all the DolarBlue values in the cache store, returns a dict of source names and their respective
+        valid update or failure."""
+
         updated_sources: dict = {}
+
         for src in DolarBlueSource.get_all():
+
             success = src.update_cache()
             if success:
                 logging.info("Success updating %s values", src.source_name)
                 updated_sources[src.source_name] = True
+
             else:
                 logging.info("Failure updating %s values", src.source_name)
                 updated_sources[src.source_name] = False
+
         return updated_sources
 
     def __init__(
@@ -46,13 +52,25 @@ class DolarBlueSource:
             fetching_function: Callable[[], Tuple[int,int]],
             cache_store: Optional[RedisDb] = None
     ):
+        """Constructor for a DolarBlueSource of information.
+
+        The source name is a representative string of the name of the site or API.
+        The fetching function is a callable that returns two floats, the BUY and the SELL
+        price of the source, its internal composition is irrelevant for this class as long as it returns a tuple of
+        two floats.
+        The cache store is a place to store the fetched values for quick access, it can be a redis database or any
+        other key value store, in the future it's type should be a protocol that complies with the required functions"""
 
         self.source_name = source_name
         self.fetching_function = fetching_function
         self.cache_store = cache_store if cache_store else RedisDb()
 
     def get_blue(self) -> Optional[DolarBlue]:
-        """Fetch and return the dolar blue value from the source."""
+        """Fetch and return the dolar blue value from the source, if possible.
+
+        This function executes the fetching function given when instantiating the object, and then returns a DolarBlue
+        object from its returning values. If the fetching function fails, it logs the exception and returns None."""
+
         try:
 
             buy_price, sell_price = self.fetching_function()
@@ -69,7 +87,9 @@ class DolarBlueSource:
             return None
 
     def get_cached_blue(self) -> Optional[DolarBlue]:
-        """Fetch and return the dolar blue value from cache."""
+        """Fetch and return the dolar blue value from cache, if found.
+
+        If the dolarblue value is not stored in the cache store, it returns none."""
 
         dolarblue_dict = self.cache_store.get_dict(
             self.source_name, "buy_price", "sell_price", "date_time"
@@ -86,7 +106,7 @@ class DolarBlueSource:
         )
 
     def set_blue_in_cache(self, dolarblue: DolarBlue) -> None:
-        """Cache the dolar blue value to redis."""
+        """Save the dolar blue value to the cache store."""
 
         dolarblue_dict = dolarblue.to_dict()
         # Average price is calculated so storing it is unnecessary
@@ -94,17 +114,16 @@ class DolarBlueSource:
         self.cache_store.store_dict(self.source_name, dolarblue.to_dict())
 
     def erase_blue_in_cache(self) -> None:
-        """Erase the dolarblue value in redis."""
+        """Erase the dolarblue value in the cache store.
+
+        This function is mainly used to clear the cache when the new values are fetched."""
         self.cache_store.delete_dict(self.source_name)
 
     def update_cache(self) -> bool:
-        """Updates and sets the cache and prevcache for the dolar price in redis. Returns True
-        if update was successful or False if it failed"""
+        """Updates the cache of the DolarBlueSource if a new value is found. Returns a bool representing it's success
+        or failure."""
 
-        # Fetching dolar blue value from source
         dolarblue = self.get_blue()
-
-        # Adding the latest dolarblue in cache if found
         if dolarblue:
             self.erase_blue_in_cache()
             self.set_blue_in_cache(dolarblue)

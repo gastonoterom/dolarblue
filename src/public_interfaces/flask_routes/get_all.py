@@ -1,8 +1,5 @@
-"""Route for handling and sending all the possible data"""
-
 import json
 from typing import Any, Dict
-
 from flask.wrappers import Response
 from main import app
 from src.classes import DolarBlueSource

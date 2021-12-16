@@ -1,5 +1,3 @@
-"""Selenium driver factory for a local or remote driver."""
-
 from typing import Optional
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options

@@ -1,9 +1,6 @@
-"""Sends a dolarblue updated report to the admin in telegram."""
-
 import logging
 from datetime import datetime
 from typing import Dict
-
 import telegram
 from telegram import Bot
 from src.pub_sub.subscribers.update_values_sub import subscribe_to_cache_updated
@@ -12,6 +9,10 @@ from src.public_interfaces.telegram_bot.config import  ADMIN_CHAT_ID
 
 @subscribe_to_cache_updated
 def send_dolarblue_report(bot: Bot, report: Dict[str, bool]) -> None:
+    """When called sends a report of the updated dolarblue sources to the bot master.
+
+    The bot master chat id is defined in the config.py of the module"""
+
     logging.info("Sending report via telegram")
 
     parsed_date = datetime.now().strftime("%m-%d-%Y %H:%M")

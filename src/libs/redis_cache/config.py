@@ -1,4 +1,3 @@
-"""Constants for redis usage."""
 from os import environ
 from typing import cast
 
