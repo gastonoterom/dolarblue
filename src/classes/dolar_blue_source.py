@@ -1,13 +1,10 @@
 from __future__ import annotations
 from datetime import datetime
 import logging
-from typing import Callable, Dict, List, Optional, Tuple
+from typing import Callable, Optional, Tuple
 from src.classes.dolar_blue import DolarBlue
 from src.libs.custom_exceptions.fetching_exception import FetchingException
 from src.libs.redis_cache.redis_db import RedisDb
-from src.libs.scraping.dolar_blue_sources.agrofy.utils import scrape_agrofy_values
-from src.libs.scraping.dolar_blue_sources.dolarhoy.utils import scrape_dolarhoy_values
-from src.libs.scraping.dolar_blue_sources.infodolar.utils import scrape_infodolar_values
 
 
 class DolarBlueSource:
@@ -15,38 +12,6 @@ class DolarBlueSource:
 
     This class represents for example a scrapable sebsite, a rest api or an xml api
     where we can get dolarblue values from. An example would be any major Argentinian newspaper."""
-
-    @staticmethod
-    def get_all() -> List[DolarBlueSource]:
-        """Gets all the existent dolar blue sources."""
-        return [
-            DolarBlueSource(source_name="agrofy",
-                            fetching_function=scrape_agrofy_values),
-            DolarBlueSource(source_name="infodolar",
-                            fetching_function=scrape_infodolar_values),
-            DolarBlueSource(source_name="dolarhoy",
-                            fetching_function=scrape_dolarhoy_values,),
-        ]
-
-    @staticmethod
-    def update_all() -> Dict[str, bool]:
-        """Updates all the DolarBlue values in the cache store,
-        returns a dict of source names and their respective valid update or failure."""
-
-        updated_sources: Dict[str, bool] = {}
-
-        for src in DolarBlueSource.get_all():
-
-            success = src.update_cache()
-            if success:
-                logging.info("Success updating %s values", src.source_name)
-                updated_sources[src.source_name] = True
-
-            else:
-                logging.info("Failure updating %s values", src.source_name)
-                updated_sources[src.source_name] = False
-
-        return updated_sources
 
     def __init__(
             self,
@@ -129,10 +94,14 @@ class DolarBlueSource:
         """Updates the cache of the DolarBlueSource if a new value is found.
         Returns a bool representing it's success or failure."""
 
+        logging.info("Starting cache update for %s", self.source_name)
         dolarblue = self.get_blue()
         if dolarblue:
             self.erase_blue_in_cache()
             self.set_blue_in_cache(dolarblue)
+            logging.info("Cache update for %s was successful",
+                         self.source_name)
             return True
 
+        logging.info("Cache update for %s was a failure", self.source_name)
         return False

@@ -1,7 +1,7 @@
 from telegram import Update
 import telegram
 from telegram.ext import CallbackContext
-from src.pub_sub.publishers.update_values_pub import pub_update_values
+from src.classes.dolar_blue_utils import DolarBlueUtils
 from src.public_interfaces.telegram_bot.commands_middlewares.authorized_only import authorized_only
 
 
@@ -11,11 +11,9 @@ def actualizar(update: Update, context: CallbackContext) -> None:
     dolarblue cached values
 
     FOR ADMINS ONLY, critical operation"""
-
     assert update.effective_chat is not None
 
-    # Publish an update-values request
-    pub_update_values()
+    DolarBlueUtils.request_cache_update()
 
     context.bot.send_message(
         chat_id=update.effective_chat.id,

@@ -1,7 +1,7 @@
 from typing import Any, Dict
 from fastapi import APIRouter
 from pydantic import BaseModel
-from src.classes import DolarBlueSource
+from src.classes import DolarBlueUtils
 
 router = APIRouter()
 
@@ -18,10 +18,13 @@ class ResponseBodySchema(BaseModel):
 async def get_all_route() -> Dict[str, Dict[str, Any]]:
     """Route for fetching the cached data for all the sources."""
 
-    all_values: Dict[str, Dict[str, Any]] = {}
-    for src in DolarBlueSource.get_all():
-        value = src.get_cached_blue()
-        if value:
-            all_values[src.source_name] = value.to_dict()
+    return DolarBlueUtils.get_all_dolarblue_dict()
 
-    return all_values
+
+@router.get("/update")
+async def update_route() -> Dict[str, str]:
+    """Route for fetching the cached data for all the sources."""
+
+    DolarBlueUtils.request_cache_update()
+
+    return {"response": "Updating dolarblue values"}

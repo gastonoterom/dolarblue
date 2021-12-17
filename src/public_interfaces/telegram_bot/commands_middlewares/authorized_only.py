@@ -30,10 +30,9 @@ def authorized_only(
         it has no valid update and context arguments")
 
     def check_access(update: Update, context: CallbackContext) -> None:
-
-        if ALLOWED_CHAT_ID is not None or update.effective_chat is not None:
+        if ALLOWED_CHAT_ID is None or update.effective_chat is None:
             raise TypeError(
-                "ALLOWED_CHAT_ID and effective chat id CANT BE NONE")
+                "ALLOWED_CHAT_ID and effective_chat_id CANT BE NONE")
 
         if update.effective_chat.id != ALLOWED_CHAT_ID:
             context.bot.send_message(
