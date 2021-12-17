@@ -19,7 +19,7 @@ def send_dolarblue_report(bot: Bot, report: Dict[str, bool]) -> None:
     response = f"Cotizaciones actualizadas - {parsed_date}\n"
 
     for src, success in report.items():
-        response += f"  \t{src.capitalize()} - "
+        response += f"      {src.capitalize()} - "
         response += "exito\n" if success else "fallo\n"
 
     bot.send_message(

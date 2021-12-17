@@ -11,14 +11,13 @@ def ver_valores(update: Update, context: CallbackContext) -> None:
 
     dolarblue_values = "Cotizaciones de dolar blue obtenidas:\n\n"
 
-    for src in DolarBlueUtils.get_all():
-        value = src.get_cached_blue()
-        if value:
-            parsed_date = value.date_time.strftime("%m-%d-%Y %H:%M")
-            dolarblue_values += f"*{src.source_name.capitalize()}* - {parsed_date}\n\
-            \tcompra: {value.buy_price}\n\
-            \tventa: {value.sell_price}\n\
-            \tpromedio: {value.average}\n\n"
+    for dolarblue in DolarBlueUtils.get_all_dolarblue_values():
+        parsed_date = dolarblue.date_time.strftime("%m-%d-%Y %H:%M")
+
+        dolarblue_values += f"*{dolarblue.source.capitalize()}* - {parsed_date}\n\
+            \tcompra: {dolarblue.buy_price}\n\
+            \tventa: {dolarblue.sell_price}\n\
+            \tpromedio: {dolarblue.average}\n\n"
 
     assert update.effective_chat is not None
 
