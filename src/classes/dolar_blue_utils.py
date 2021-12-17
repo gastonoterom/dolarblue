@@ -7,6 +7,7 @@ from src.classes.dolar_blue_source import DolarBlueSource
 from src.libs.scraping.dolar_blue_sources.agrofy.utils import scrape_agrofy_values
 from src.libs.scraping.dolar_blue_sources.dolarhoy.utils import scrape_dolarhoy_values
 from src.libs.scraping.dolar_blue_sources.infodolar.utils import scrape_infodolar_values
+from src.libs.utils import log_runtime
 from src.pub_sub.publishers.update_values_pub import pub_update_values
 
 
@@ -27,6 +28,7 @@ class DolarBlueUtils:
         ]
 
     @staticmethod
+    @log_runtime
     def update_all() -> Dict[str, bool]:
         """Updates all the DolarBlue values in the cache store,
         returns a report of each source names and their respective valid update or failure."""
@@ -37,14 +39,14 @@ class DolarBlueUtils:
             with ThreadPoolExecutor() as pool:
 
                 loop = asyncio.get_running_loop()
-                jobs = []
-
                 all_sources = DolarBlueUtils.get_all()
 
-                for src in all_sources:
-                    jobs.append(loop.run_in_executor(pool, src.update_cache))
-
-                jobs_report = await asyncio.gather(*jobs)
+                jobs_report = await asyncio.gather(
+                    *[
+                        loop.run_in_executor(pool, src.update_cache)
+                        for src in all_sources
+                    ]
+                )
 
                 return {src.source_name: rsp for src, rsp in zip(all_sources, jobs_report)}
 

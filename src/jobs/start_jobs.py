@@ -9,7 +9,8 @@ def start_all_jobs():
     Every minute it checks if there are any scheduled jobs pending and it runs them"""
     async def start_all_jobs_async():
         # The waiting is async, but each routine is run, of course, sync, so be carefull with
-        # its execution time
+        # the handlers
+
         schedule.every().hour.do(send_dolarblue_update_request)
 
         while True:
