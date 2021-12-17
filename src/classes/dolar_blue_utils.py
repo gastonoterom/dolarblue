@@ -34,17 +34,19 @@ class DolarBlueUtils:
         async def update_all_async() -> Dict[str, bool]:
             """This runs each update_cache in a different thread in an async fashion, to it is
             much faster than running each one by itself"""
-            loop = asyncio.get_running_loop()
-            all_sources = DolarBlueUtils.get_all()
-            executor = ThreadPoolExecutor(len(all_sources))
-            jobs = []
+            with ThreadPoolExecutor() as pool:
 
-            for src in all_sources:
-                jobs.append(loop.run_in_executor(executor, src.update_cache))
+                loop = asyncio.get_running_loop()
+                jobs = []
 
-            jobs_report = await asyncio.gather(*jobs)
+                all_sources = DolarBlueUtils.get_all()
 
-            return {src.source_name: rsp for src, rsp in zip(all_sources, jobs_report)}
+                for src in all_sources:
+                    jobs.append(loop.run_in_executor(pool, src.update_cache))
+
+                jobs_report = await asyncio.gather(*jobs)
+
+                return {src.source_name: rsp for src, rsp in zip(all_sources, jobs_report)}
 
         return asyncio.run(update_all_async())
 
