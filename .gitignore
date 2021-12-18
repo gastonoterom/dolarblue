@@ -7,3 +7,4 @@ htmlcov
 .idea/
 .mypy_cache/
 .pylintrc
+sandbox.py

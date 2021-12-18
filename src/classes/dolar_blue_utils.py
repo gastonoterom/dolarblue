@@ -5,6 +5,7 @@ from concurrent.futures.thread import ThreadPoolExecutor
 from src.classes.dolar_blue import DolarBlue
 from src.classes.dolar_blue_source import DolarBlueSource
 from src.libs.scraping.dolar_blue_sources.agrofy.utils import scrape_agrofy_values
+from src.libs.scraping.dolar_blue_sources.ambito.utils import scrape_ambito_values
 from src.libs.scraping.dolar_blue_sources.dolarhoy.utils import scrape_dolarhoy_values
 from src.libs.scraping.dolar_blue_sources.infodolar.utils import scrape_infodolar_values
 from src.libs.utils import log_runtime
@@ -24,7 +25,9 @@ class DolarBlueUtils:
             DolarBlueSource(source_name="infodolar",
                             fetching_function=scrape_infodolar_values),
             DolarBlueSource(source_name="dolarhoy",
-                            fetching_function=scrape_dolarhoy_values,),
+                            fetching_function=scrape_dolarhoy_values),
+            DolarBlueSource(source_name="ambito",
+                            fetching_function=scrape_ambito_values)
         ]
 
     @staticmethod
