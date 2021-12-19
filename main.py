@@ -25,7 +25,7 @@ from src.plugins import load_plugins
 logging.info("Loading plugins")
 load_plugins()
 
-# Initailize fastapi & routes
+# Initialize fastapi & routes
 from fastapi import FastAPI
 from src.public_interfaces.fastapi_routes.get_all import router as get_all_router
 

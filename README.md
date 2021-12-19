@@ -12,7 +12,7 @@ in the Central Bank with many limitations, the average argentinian is unable to 
 Because of this the average Argentinian has to resort to the "unregulated" currency market, but of course, that has its flaws: there is no standardized/centralized way to know the price of the US dollar. The parallel (BLUE) market might seem like a libertarian's utopia, everything is handled by pure supply and demand, but there is a catch: there are too many different sources to get the current price of the "Dolar Blue". This API serves as a way to at least try to centralize and group the most popular sources into only one place.
 
 This project is not in favour or against the parallel currency market or the measures our govt. takes to handle the economy,
-it is irrelevant to this program's scope. To this date, the python interpreter is agnositc about tribal human politics, although this may change
+it is irrelevant to this program's scope. To this date, the python interpreter is agnostic about tribal human politics, although this may change
 in the future years with a better development of artificial intelligence technologies.
 
 The information is there, it is public and this program only tries to gather and organize it.
