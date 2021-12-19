@@ -2,14 +2,10 @@ from __future__ import annotations
 from typing import Any, Dict, List
 import asyncio
 from concurrent.futures.thread import ThreadPoolExecutor
-from src.classes.dolar_blue import DolarBlue
-from src.classes.dolar_blue_source import DolarBlueSource
-from src.libs.scraping.dolar_blue_sources.agrofy.utils import scrape_agrofy_values
-from src.libs.scraping.dolar_blue_sources.ambito.utils import scrape_ambito_values
-from src.libs.scraping.dolar_blue_sources.dolarhoy.utils import scrape_dolarhoy_values
-from src.libs.scraping.dolar_blue_sources.infodolar.utils import scrape_infodolar_values
+from src.classes.dolar_blue import DolarBlue, DolarBlueSource
 from src.libs.utils import log_runtime
 from src.pub_sub.publishers.update_values_pub import pub_update_values
+from src.plugins import get_plugins
 
 
 class DolarBlueUtils:
@@ -19,15 +15,10 @@ class DolarBlueUtils:
     @staticmethod
     def get_all() -> List[DolarBlueSource]:
         """Gets all the existent dolar blue sources."""
+
         return [
-            DolarBlueSource(source_name="agrofy",
-                            fetching_function=scrape_agrofy_values),
-            DolarBlueSource(source_name="infodolar",
-                            fetching_function=scrape_infodolar_values),
-            DolarBlueSource(source_name="dolarhoy",
-                            fetching_function=scrape_dolarhoy_values),
-            DolarBlueSource(source_name="ambito",
-                            fetching_function=scrape_ambito_values)
+            DolarBlueSource(plugin[0], plugin[1])
+            for plugin in get_plugins()
         ]
 
     @staticmethod
@@ -71,7 +62,7 @@ class DolarBlueUtils:
         serializable dictionary."""
 
         return {
-            dolarblue.source: dolarblue.to_dict()
+            dolarblue.source.source_name: dolarblue.to_dict()
             for dolarblue in DolarBlueUtils.get_all_dolarblue_values()
         }
 

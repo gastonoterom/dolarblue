@@ -1,11 +1,12 @@
-from typing import List, Tuple
+from typing import Callable, List, Tuple
 from bs4 import BeautifulSoup
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from src.libs.scraping.dolar_blue_sources.config import AGROFY_URL
 from src.libs.scraping.scrape_page import scrape_dolar_values_from_source
+
+AGROFY_URL = "https://news.agrofy.com.ar/economia-politica/dolar"
 
 
 def agrofy_soup_scraping(soup: BeautifulSoup) -> Tuple[float, float]:
@@ -46,7 +47,7 @@ def agrofy_selenium_fetching(driver: WebDriver) -> str:
         WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, "table-agrofy"))
         )
-        content = driver.page_source
+        content: str = driver.page_source
         return content
 
     except Exception as err:
@@ -59,4 +60,12 @@ def scrape_agrofy_values() -> Tuple[float, float]:
     return scrape_dolar_values_from_source(
         agrofy_selenium_fetching,
         agrofy_soup_scraping,
+    )
+
+
+def get_plugin() -> Tuple[str, Callable[[], Tuple[float, float]]]:
+    """Returns the plugins name & fetching strategy"""
+    return (
+        "agrofy",
+        scrape_agrofy_values
     )

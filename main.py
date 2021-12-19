@@ -1,4 +1,4 @@
-# pylint: disable=wrong-import-order,wrong-import-position
+# pylint: disable=wrong-import-order,wrong-import-position,ungrouped-imports
 
 """Python backend flask API for dolarblue prices in Argentina,
 obtained by webscraping different sites, and requesting prices via different apis"""
@@ -10,12 +10,20 @@ __email__ = "mail@gastonotero.com"
 
 # Setup the environment
 from dotenv import load_dotenv
+
 load_dotenv()
+
 
 # Initialize Logging
 import logging
 
 logging.basicConfig(level=logging.INFO)
+
+# Initialize plugins
+from src.plugins import load_plugins
+
+logging.info("Loading plugins")
+load_plugins()
 
 # Initailize fastapi & routes
 from fastapi import FastAPI

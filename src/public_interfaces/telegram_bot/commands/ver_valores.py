@@ -14,7 +14,7 @@ def ver_valores(update: Update, context: CallbackContext) -> None:
     for dolarblue in DolarBlueUtils.get_all_dolarblue_values():
         parsed_date = dolarblue.date_time.strftime("%m-%d-%Y %H:%M")
 
-        dolarblue_values += f"*{dolarblue.source.capitalize()}* - {parsed_date}\n\
+        dolarblue_values += f"*{dolarblue.source.source_name.capitalize()}* - {parsed_date}\n\
             \tcompra: {dolarblue.buy_price}\n\
             \tventa: {dolarblue.sell_price}\n\
             \tpromedio: {dolarblue.average}\n\n"

@@ -1,11 +1,12 @@
-from typing import List, Tuple
+from typing import Callable, List, Tuple
 from bs4 import BeautifulSoup
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from src.libs.scraping.dolar_blue_sources.config import INFODOLAR_URL
 from src.libs.scraping.scrape_page import scrape_dolar_values_from_source
+
+INFODOLAR_URL = "https://www.infodolar.com/cotizacion-dolar-blue.aspx"
 
 
 def infodolar_soup_scraping(soup: BeautifulSoup) -> Tuple[float, float]:
@@ -52,4 +53,12 @@ def scrape_infodolar_values() -> Tuple[float, float]:
     return scrape_dolar_values_from_source(
         infodolar_selenium_fetching,
         infodolar_soup_scraping
+    )
+
+
+def get_plugin() -> Tuple[str, Callable[[], Tuple[float, float]]]:
+    """Returns the plugins name & fetching strategy"""
+    return (
+        "infodolar",
+        scrape_infodolar_values
     )

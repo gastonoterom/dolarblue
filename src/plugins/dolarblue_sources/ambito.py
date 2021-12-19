@@ -1,11 +1,12 @@
-from typing import List, Tuple
+from typing import Callable, Tuple
 from bs4 import BeautifulSoup
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from src.libs.scraping.dolar_blue_sources.config import AMBITO_URL
 from src.libs.scraping.scrape_page import scrape_dolar_values_from_source
+
+AMBITO_URL = "https://www.ambito.com/contenidos/dolar-informal.html"
 
 
 def ambito_soup_scraping(soup: BeautifulSoup) -> Tuple[float, float]:
@@ -55,4 +56,12 @@ def scrape_ambito_values() -> Tuple[float, float]:
     return scrape_dolar_values_from_source(
         ambito_selenium_fetching,
         ambito_soup_scraping,
+    )
+
+
+def get_plugin() -> Tuple[str, Callable[[], Tuple[float, float]]]:
+    """Returns the plugins name & fetching strategy"""
+    return (
+        "ambito",
+        scrape_ambito_values
     )

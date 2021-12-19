@@ -23,7 +23,7 @@ async def get_all_route() -> Dict[str, Dict[str, Any]]:
 
 @router.get("/update")
 async def update_route() -> Dict[str, str]:
-    """Route for fetching the cached data for all the sources."""
+    """TESTING ONLY."""
 
     DolarBlueUtils.request_cache_update()
 
