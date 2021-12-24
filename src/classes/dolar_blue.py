@@ -35,13 +35,14 @@ class DolarBlue:
 class DolarBlueSource:
     """Class that represents a Dolar Blue Source of information.
 
-    This class represents for example a scrapable sebsite, a rest api or an xml api
+    This class represents for example a scrapable website, a rest api or an xml api
     where we can get dolarblue values from. An example would be any major Argentinian newspaper."""
 
     def __init__(
             self,
             source_name: str,
-            fetching_strategy: Callable[[], Tuple[float, float]],
+            fetching_strategy: Optional[Callable[[],
+                                                 Tuple[float, float]]] = None,
             cache_store: Optional[RedisDb] = None
     ):
         """Constructor for a DolarBlueSource of information.
@@ -49,7 +50,7 @@ class DolarBlueSource:
         The source name is a representative string of the name of the site or API.
         The fetching strategy is a callable that returns two floats, the BUY and the SELL
         price of the source, its internal composition is irrelevant
-        for this class as long as it returns a tuple oftwo floats.
+        for this class as long as it returns a tuple of two floats.
         The cache store is a place to store the fetched values for quick access,
         it can be a redis database or any other key value store, in the future it's type should
         be a protocol that complies with the required functions"""
@@ -64,6 +65,8 @@ class DolarBlueSource:
         This function executes the fetching function given when instantiating
         the object, and then returns a DolarBlue object from its returning values. If the fetching
         function fails, it logs the exception and returns None."""
+        if self.fetching_strategy is None:
+            return None
 
         try:
 
@@ -115,18 +118,20 @@ class DolarBlueSource:
         This function is mainly used to clear the cache when the new values are fetched."""
         self.cache_store.delete_dict(self.source_name)
 
-    def update_cache(self) -> bool:
+    def update_cache(self) -> Optional[DolarBlue]:
         """Updates the cache of the DolarBlueSource if a new value is found.
         Returns a bool representing it's success or failure."""
 
         logging.info("Starting cache update for %s", self.source_name)
+
         dolarblue = self.get_blue()
+
         if dolarblue:
             self.erase_blue_in_cache()
             self.set_blue_in_cache(dolarblue)
             logging.info("Cache update for %s was successful",
                          self.source_name)
-            return True
+            return dolarblue
 
         logging.info("Cache update for %s was a failure", self.source_name)
-        return False
+        return None

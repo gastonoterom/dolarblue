@@ -1,8 +1,8 @@
-import inspect
 import json
 from functools import wraps
-from typing import Callable, Any, Dict
-from src.libs.custom_exceptions.fetching_exception import MethodNotCompatibleError
+import logging
+from typing import Callable, Any, Dict, Optional
+from src.classes.dolar_blue import DolarBlue, DolarBlueSource
 from src.libs.redis_cache.redis_pub_sub import RedisSub
 
 
@@ -32,30 +32,49 @@ def subscribe_to_update_request(handler: Callable[..., Any]) -> Callable[..., An
     return provider
 
 
+def parse_json_report(json_payload: str) -> Dict[str, Optional[DolarBlue]]:
+    """This function parses a JSON string containing each source and it's dolarblue value
+    to return a dictionary with a python object representing the dolarblue."""
+    report_data = json.loads(json_payload)
+    parsed_report_data: Dict[str, Optional[DolarBlue]] = {}
+
+    for key in report_data:
+        try:
+            source = DolarBlueSource(key)
+            buy = report_data[key]["buy_price"]
+            sell = report_data[key]["sell_price"]
+            parsed_report_data[key] = DolarBlue(source, buy, sell)
+
+        except KeyError as key_err:
+            logging.error("Key Error parsing dictionary: %s", key_err)
+            parsed_report_data[key] = None
+
+        except ValueError as value_error:
+            logging.error("ValueError parsing dictionary: %s", value_error)
+            parsed_report_data[key] = None
+
+        # Just in case something weird happens...
+        except Exception as exception:  # pylint: disable=broad-except
+            logging.error("Generic error parsing dictionary: %s", exception)
+            parsed_report_data[key] = None
+
+    return parsed_report_data
+
+
 def subscribe_to_cache_updated(handler: Callable[..., Any]) -> Callable[..., Any]:
     """Decorator for subscribing a function to the
     'dolarblue-values-updated' channel when said function is called.
 
-    It provides a report to the decorated function, so it MUST accept 'report:Dict[str, bool]'
+    It provides a report to the decorated function, so it MUST accept 'report:Optional[DolarBlue]'
     as a kwarg"""
-
-    # Check method compatibility DEPRECATED in python 3.10, not needed anymore
-    inspected_handler = inspect.getfullargspec(handler)
-
-    handler_has_report = "report" in inspected_handler.args
-    report_is_dict = Dict[str,
-                          bool] == inspected_handler.annotations.get("report")
-
-    if (handler_has_report and report_is_dict) is not True:
-        raise MethodNotCompatibleError("Decorated function is incompatible:\
-        it has no 'report: Dict[str, bool]' argument")
 
     @wraps(handler)
     def provider(*args: Any, **kwargs: Any) -> None:
         def values_updated_handler(message: Dict[str, Any]) -> None:
 
             # Provide the report to the handler
-            report_data: dict[str, bool] = json.loads(message["data"])
+            report_data = parse_json_report(message["data"])
+
             kwargs["report"] = report_data
 
             handler(*args, **kwargs)

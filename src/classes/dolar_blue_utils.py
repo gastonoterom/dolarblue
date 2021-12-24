@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 import asyncio
 from concurrent.futures.thread import ThreadPoolExecutor
 from src.classes.dolar_blue import DolarBlue, DolarBlueSource
@@ -13,8 +13,13 @@ class DolarBlueUtils:
     all the DolarBlueSources"""
 
     @staticmethod
+    def get_average() -> DolarBlueSource:
+        """Gets the average buy/sell price from all the scraped sources"""
+        return DolarBlueSource("average")
+
+    @staticmethod
     def get_all() -> List[DolarBlueSource]:
-        """Gets all the existent dolar blue sources."""
+        """Gets all the existent dolar blue sources from the plugins."""
 
         return [
             DolarBlueSource(plugin[0], plugin[1])
@@ -23,11 +28,14 @@ class DolarBlueUtils:
 
     @staticmethod
     @log_runtime
-    def update_all() -> Dict[str, bool]:
+    def update_all() -> Dict[str, Optional[DolarBlue]]:
         """Updates all the DolarBlue values in the cache store,
-        returns a report of each source names and their respective valid update or failure."""
+        returns a report of each source names and their respective valid update or failure.
 
-        async def update_all_async() -> Dict[str, bool]:
+        The key of the dictionary is the name of the dolarblue source and the object is a dolarblue
+        object in case the update was successful. Otherwise, the value of that key is None."""
+
+        async def update_all_async() -> Dict[str, Optional[DolarBlue]]:
             """This runs each update_cache in a different thread in an async fashion, to it is
             much faster than running each one by itself"""
             with ThreadPoolExecutor() as pool:
@@ -42,7 +50,7 @@ class DolarBlueUtils:
                     ]
                 )
 
-                return {src.source_name: rsp for src, rsp in zip(all_sources, jobs_report)}
+                return {src.source_name: dolar for src, dolar in zip(all_sources, jobs_report)}
 
         return asyncio.run(update_all_async())
 

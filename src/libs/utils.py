@@ -1,12 +1,13 @@
 
 import time
 import logging
-from typing import Any, Callable
+from functools import wraps
 
 
-def log_runtime(function_to_log: Callable) -> Callable:
+def log_runtime(function_to_log):
     """This decorator logs the runtime of the decorated function"""
-    def check_time(*args, **kwargs) -> Any:
+    @wraps(function_to_log)
+    def check_time(*args, **kwargs):
         start = time.perf_counter()
         rsp = function_to_log(*args, **kwargs)
         elapsed = time.perf_counter() - start

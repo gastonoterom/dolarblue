@@ -4,7 +4,7 @@ from src.jobs.scheduled_jobs import send_dolarblue_update_request
 
 
 def start_all_jobs():
-    """This function starts all the scheduled jobs asyncronously.
+    """This function starts all the scheduled jobs asynchronously.
 
     Every minute it checks if there are any scheduled jobs pending and it runs them"""
     async def start_all_jobs_async():

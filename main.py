@@ -41,10 +41,11 @@ logging.info("Starting Telegram bot.")
 start_telegram_bot()
 
 # Initialize main "update-dolarblue-values" subscriber
-from src.pub_sub.main_dolarblue_updater import handle_dolarblue_update_request
+from src.pub_sub.main_dolarblue_updater import handle_dolarblue_update_request, handle_cache_updated
 
 logging.info("Starting main dolarblue update request handler.")
 handle_dolarblue_update_request()
+handle_cache_updated()
 
 # Start all the scheduled jobs
 from src.jobs.start_jobs import start_all_jobs
