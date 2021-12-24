@@ -32,7 +32,7 @@ The REST api has two main routes:
 
 If you just want to get an updated buy and sell price use this route.
 Each update cycle it takes the buy and sell values of each source that could be fetched and updates
-the average of those sources in the cache
+the average of those sources in the cache.
 
 Url: https://api.gastonotero.com/dolarblue/
 

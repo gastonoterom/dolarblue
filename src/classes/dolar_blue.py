@@ -124,10 +124,11 @@ class DolarBlueSource:
 
         logging.info("Starting cache update for %s", self.source_name)
 
+        self.erase_blue_in_cache()
         dolarblue = self.get_blue()
 
         if dolarblue:
-            self.erase_blue_in_cache()
+
             self.set_blue_in_cache(dolarblue)
             logging.info("Cache update for %s was successful",
                          self.source_name)

@@ -6,10 +6,10 @@ from telegram.ext import CallbackContext
 from src.classes import DolarBlueUtils
 
 
-def ver_valores(update: Update, context: CallbackContext) -> None:
-    """Handles the ver_valores bot command, which sends the user all the dolarblue cached values"""
+def fuentes(update: Update, context: CallbackContext) -> None:
+    """Handles the fuentes bot command, which sends the user all the dolarblue cached values"""
 
-    dolarblue_values = "Cotizaciones de dolar blue obtenidas:\n\n"
+    dolarblue_values = "Fuentes:\n\n"
 
     for dolarblue in DolarBlueUtils.get_all_dolarblue_values():
         parsed_date = dolarblue.date_time.strftime("%m-%d-%Y %H:%M")
