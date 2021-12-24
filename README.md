@@ -26,7 +26,7 @@ This API has two layers of communication: a REST API and a Telegram bot. It will
 Right now the rest api is not published! Im taking care of infrastructure issues and I will update the documentation when
 everything is up and running.
 
-The REST api has to main routes
+The REST api has two main routes:
 
 #### Getting the average dolarblue values
 
@@ -35,8 +35,11 @@ Each update cycle it takes the buy and sell values of each source that could be 
 the average of those sources in the cache
 
 Url: https://api.gastonotero.com/dolarblue/
+
 Request type: GET
+
 Example response:
+
 `{ "buy_price": 200.7, "sell_price": 204.1, "average_price": 202.4, "date_time": "12-24-2021 17:14:06" }`
 
 #### Fetching the sources
@@ -47,8 +50,11 @@ in intervals together, so if a source has an old date it means it failed many ti
 taken into account in the average dolarblue price, so they do not affect it.
 
 Url: https://api.gastonotero.com/dolarblue/sources
+
 Request type: GET
+
 Example response:
+
 `{ "infodolar": { "buy_price": 201, "sell_price": 204, "average_price": 202.5, "date_time": "12-24-2021 17:14:06" }, "lanacion": { "buy_price": 200, "sell_price": 204, "average_price": 202, "date_time": "12-24-2021 17:14:06" } }`
 
 ### Telegram bot
