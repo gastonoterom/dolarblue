@@ -23,9 +23,33 @@ This API has two layers of communication: a REST API and a Telegram bot. It will
 
 ### Rest API
 
-The REST API is not yet published.
-The rest API base URL will be https://api.gastonotero.com/dolarblue
-The complete documentation of the REST API will be soon published.
+Right now the rest api is not published! Im taking care of infrastructure issues and I will update the documentation when
+everything is up and running.
+
+The REST api has to main routes
+
+#### Getting the average dolarblue values
+
+If you just want to get an updated buy and sell price use this route.
+Each update cycle it takes the buy and sell values of each source that could be fetched and updates
+the average of those sources in the cache
+
+Url: https://api.gastonotero.com/dolarblue/
+Request type: GET
+Example response:
+`{ "buy_price": 200.7, "sell_price": 204.1, "average_price": 202.4, "date_time": "12-24-2021 17:14:06" }`
+
+#### Fetching the sources
+
+If you want to verify the sources use this URL, it returns a json object with each source and it's associated
+dolarblue price values. The source's date represent where the source was last fetched. Sources are fetched
+in intervals together, so if a source has an old date it means it failed many times. Failed sources are not
+taken into account in the average dolarblue price, so they do not affect it.
+
+Url: https://api.gastonotero.com/dolarblue/sources
+Request type: GET
+Example response:
+`{ "infodolar": { "buy_price": 201, "sell_price": 204, "average_price": 202.5, "date_time": "12-24-2021 17:14:06" }, "lanacion": { "buy_price": 200, "sell_price": 204, "average_price": 202, "date_time": "12-24-2021 17:14:06" } }`
 
 ### Telegram bot
 
