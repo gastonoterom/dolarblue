@@ -14,7 +14,7 @@ class DolarBlue:
     source: DolarBlueSource
     buy_price: float
     sell_price: float
-    date_time: datetime = datetime.now()
+    date_time: datetime
 
     @property
     def average(self) -> float:
@@ -76,6 +76,7 @@ class DolarBlueSource:
                 source=self,
                 buy_price=buy_price,
                 sell_price=sell_price,
+                date_time=datetime.now()
             )
 
         except FetchingException as fep:

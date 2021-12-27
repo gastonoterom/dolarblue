@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 from functools import wraps
 import logging
@@ -43,7 +44,9 @@ def parse_json_report(json_payload: str) -> Dict[str, Optional[DolarBlue]]:
             source = DolarBlueSource(key)
             buy = report_data[key]["buy_price"]
             sell = report_data[key]["sell_price"]
-            parsed_report_data[key] = DolarBlue(source, buy, sell)
+            parsed_report_data[key] = DolarBlue(
+                source, buy, sell, datetime.now()
+            )
 
         except KeyError as key_err:
             logging.error("Key Error parsing dictionary: %s", key_err)
