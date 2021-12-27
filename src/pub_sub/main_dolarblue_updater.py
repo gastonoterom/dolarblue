@@ -23,16 +23,15 @@ def handle_cache_updated(report: Dict[str, Optional[DolarBlue]]) -> None:
     from all the sources that were successfully fetched"""
 
     logging.info("Creating average dolarblue value")
+    values = list(filter(None, report.values()))
 
     buy = sell = 0.0
-    for val in report.values():
-        if val is None:
-            continue
+    for val in values:
         buy += val.buy_price
         sell += val.sell_price
 
-    buy = round(buy / len(report.values()), 2)
-    sell = round(sell / len(report.values()), 2)
+    buy = round(buy / len(values), 2)
+    sell = round(sell / len(values), 2)
 
     average_source = DolarBlueSource("average", lambda: (buy, sell))
     average_source.update_cache()

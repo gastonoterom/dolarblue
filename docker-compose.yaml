@@ -4,8 +4,11 @@ services:
 
         selenium-chrome:
                 image: selenium/standalone-chrome
-                container_name: "dolarblue-selenium-chrome"
+                container_name: "dolarblue-selenium"
                 restart: always
+                environment:
+                         - NODE_MAX_INSTANCE=20
+                         - NODE_MAX_SESSION=20
 
         redis-db:
                 image: redis
@@ -14,5 +17,7 @@ services:
 
         dolarblue-api:
                 image: dolarblue-api
-                container_naime: "dolarblue-api"
+                contaner_naime: "dolarblue-api"
                 restart: always
+                ports:
+                         - 80:80
