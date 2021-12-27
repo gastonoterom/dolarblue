@@ -2,14 +2,6 @@ version: "3.9"
 
 services:
 
-        selenium-chrome:
-                image: selenium/standalone-chrome
-                container_name: "dolarblue-selenium"
-                restart: always
-                environment:
-                         - NODE_MAX_INSTANCE=20
-                         - NODE_MAX_SESSION=20
-
         redis-db:
                 image: redis
                 container_name: "dolarblue-redis"
