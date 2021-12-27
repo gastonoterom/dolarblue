@@ -1,4 +1,3 @@
-import logging
 from typing import Optional
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -11,22 +10,21 @@ class SeleniumDriverFactory():
 
     @staticmethod
     def get_default_options() -> Options:
-        logging.info("Getting default options")
         """Get default options for the selenium driver."""
         options = Options()
         options.headless = HEADLESS_SELENIUM
-        # options.add_argument("--silent")
-        # options.add_argument("--log-level=3")
-        #options.add_experimental_option('excludeSwitches', ['enable-logging'])
+        options.add_argument("--silent")
+        options.add_argument("--log-level=3")
+        options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
-        chrome_prefs = {}
-        options.experimental_options["prefs"] = chrome_prefs
-        chrome_prefs["profile.default_content_settings"] = {"images": 2}
+    chrome_prefs = {}
+    options.experimental_options["prefs"] = chrome_prefs
+    chrome_prefs["profile.default_content_settings"] = {"images": 2}
 
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
 
-        return options
+    return options
 
     @classmethod
     def get_driver(
@@ -49,14 +47,11 @@ class SeleniumDriverFactory():
     @staticmethod
     def get_local_driver(options: Options) -> WebDriver:
         """Creates and returns a local chrome selenium driver."""
-        logging.info("Getting local driver")
         return webdriver.Chrome(options=options)
 
     @staticmethod
     def get_remote_driver(options: Options, remote_url: str) -> WebDriver:
         """Creates and returns a remote selenium driver to the specified url."""
-        logging.info("Getting remote driver")
-        logging.info(remote_url)
         return webdriver.Remote(
             command_executor=remote_url,
             options=options

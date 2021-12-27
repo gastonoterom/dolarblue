@@ -1,6 +1,5 @@
 import inspect
 from functools import wraps
-import logging
 from selenium.webdriver.remote.webdriver import WebDriver
 from src.libs.custom_exceptions.fetching_exception \
     import MethodNotCompatibleError, NonSeleniumDriverException
