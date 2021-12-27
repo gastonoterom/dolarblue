@@ -15,7 +15,7 @@ def ver(update: Update, context: CallbackContext) -> None:
 
     parsed_date = dolarblue.date_time.strftime("%d-%m-%Y %H:%M")
 
-    dolarblue_values = f"""Valor actual\n{parsed_date}\n
+    dolarblue_values = f"""Valor actual\n{parsed_date} UTC\n
 Compra: {dolarblue.buy_price}
 Venta: {dolarblue.sell_price}
 Promedio: {dolarblue.average}"""

@@ -21,6 +21,8 @@ The information is there, it is public and this program only tries to gather and
 
 This API has two layers of communication: a REST API and a Telegram bot. It will also have a python SDK in the future for easier usage.
 
+NOTE: All times are in UTC
+
 ### Rest API
 
 The REST api has two main routes:
