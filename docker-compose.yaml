@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+
+        selenium-chrome:
+                image: selenium/standalone-chrome
+                container_name: "dolarblue-selenium-chrome"
+                restart: always
+
+        redis-db:
+                image: redis
+                container_name: "dolarblue-redis"
+                restart: always
+
+        dolarblue-api:
+                image: dolarblue-api
+                container_naime: "dolarblue-api"
+                restart: always
