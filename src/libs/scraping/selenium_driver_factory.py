@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Dict, Optional
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -17,14 +17,14 @@ class SeleniumDriverFactory():
         options.add_argument("--log-level=3")
         options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
-    chrome_prefs = {}
-    options.experimental_options["prefs"] = chrome_prefs
-    chrome_prefs["profile.default_content_settings"] = {"images": 2}
+        chrome_prefs: Dict[str, Any] = {}
+        options.experimental_options["prefs"] = chrome_prefs
+        chrome_prefs["profile.default_content_settings"] = {"images": 2}
 
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
 
-    return options
+        return options
 
     @classmethod
     def get_driver(
