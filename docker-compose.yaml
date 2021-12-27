@@ -17,7 +17,7 @@ services:
 
         dolarblue-api:
                 image: dolarblue-api
-                contaner_naime: "dolarblue-api"
+                contaner_name: "dolarblue-api"
                 restart: always
                 ports:
                          - 80:80
