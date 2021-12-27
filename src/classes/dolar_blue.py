@@ -128,7 +128,6 @@ class DolarBlueSource:
         dolarblue = self.get_blue()
 
         if dolarblue:
-
             self.set_blue_in_cache(dolarblue)
             logging.info("Cache update for %s was successful",
                          self.source_name)

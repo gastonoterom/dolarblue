@@ -1,5 +1,6 @@
 import inspect
 from functools import wraps
+import logging
 from selenium.webdriver.remote.webdriver import WebDriver
 from src.libs.custom_exceptions.fetching_exception \
     import MethodNotCompatibleError, NonSeleniumDriverException
@@ -34,6 +35,7 @@ def selenium_provided(selenium_requirer):
         # If the function was called without a driver provided, create one and inject it
         if kwargs.get("driver") is None:
             with SeleniumDriverFactory.get_driver(REMOTE_SELENIUM_URL) as driver:
+
                 kwargs["driver"] = driver
                 response = selenium_requirer(*args, **kwargs)
         else:

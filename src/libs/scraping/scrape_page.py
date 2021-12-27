@@ -1,6 +1,6 @@
 from typing import Callable, Tuple
+import logging
 from bs4 import BeautifulSoup
-
 from selenium.webdriver.remote.webdriver import WebDriver
 from src.libs.custom_exceptions.fetching_exception import FetchingException
 from src.libs.scraping.utils import selenium_provided

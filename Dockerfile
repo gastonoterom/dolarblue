@@ -8,19 +8,12 @@ RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable 
 RUN apt-get -y update
 RUN apt-get install -y google-chrome-stable
 
-# Installing Unzip
+# Install chrome webdriver
 RUN apt-get install -yqq unzip
-
-# Download the Chrome Driver
 RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
+RUN unzip /tmp/chromedriver.zip chromedriver -d /bin/
 
-# Unzip the Chrome Driver into /usr/local/bin directory
-RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
-
-# Set display port as an environment variable
-ENV DISPLAY=:99
-
-# Install dependencies
+# Install pip dependencies
 COPY ./requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 
@@ -28,6 +21,9 @@ RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 COPY ./main.py /app/main.py
 COPY ./.env /app/.env
 COPY ./src /app/src
+
+# Set ENVS
+ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
 
 # Run the app
 CMD ["uvicorn", "main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "80"]

@@ -23,9 +23,6 @@ This API has two layers of communication: a REST API and a Telegram bot. It will
 
 ### Rest API
 
-Right now the rest api is not published! Im taking care of infrastructure issues and I will update the documentation when
-everything is up and running.
-
 The REST api has two main routes:
 
 #### Getting the average dolarblue values
