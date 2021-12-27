@@ -14,7 +14,7 @@ class ResponseBodySchema(BaseModel):
     date_time: str = "15-12-2021 19:18:22"
 
 
-@router.get("/", response_model=ResponseBodySchema)
+@router.get("/dolarblue", response_model=ResponseBodySchema)
 async def get_average() -> Dict[str, Any]:
     """Route for fetching the cached data for all the sources."""
     cached_average = DolarBlueUtils.get_average().get_cached_blue()
@@ -25,7 +25,7 @@ async def get_average() -> Dict[str, Any]:
     return cached_average.to_dict()
 
 
-@router.get("/sources", response_model=Dict[str, ResponseBodySchema])
+@router.get("/dolarblue/sources", response_model=Dict[str, ResponseBodySchema])
 async def get_all_route() -> Dict[str, Dict[str, Any]]:
     """Route for fetching the cached data for all the sources."""
 
